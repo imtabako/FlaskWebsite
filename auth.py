@@ -2,7 +2,7 @@ from flask import Blueprint, flash, redirect, url_for
 from flask import render_template, request
 from flask_login import login_user, login_required, logout_user
 
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 
 from .models import User
 
@@ -18,8 +18,7 @@ def login():
 @auth.route('/login', methods=['POST'])
 def login_post():
     # login code goes here
-    password = request.form.get('password')
-    remember = True if request.form.get('remember') else False
+    remember = True
 
     username = request.form.get('username')
     password = request.form.get('password')
@@ -41,7 +40,7 @@ def login_post():
 
     # if the above check passes, then we know the user has the right credentials
     login_user(user, remember=remember)
-    return redirect(url_for('main.profile'))
+    return redirect(url_for('main.index'))
 
 
 @auth.route('/logout')

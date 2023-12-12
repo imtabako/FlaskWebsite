@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+{% block head %}
+{{ super() }}
+<style type="text/css">
+
+</style>
+{% endblock %}
+{% block content %}
+    {% if post %}
+        <h2>{{ post.title }}</h2>
+        <p>Автор: {{ post.author_username }}</p>
+        <p>Дата публикации: {{ post.created.strftime('%d.%m.%Y %H:%M') }}</p>
+        <hr>
+        <textarea style="width: 90%; height: 20em">{{ post.body }}</textarea>
+        <p>Редактор: {{ post.editor_username }}</p>
+        <p>Дата редактирования: {{ post.edited }}</p>
+    {% endif %}
+    {% if error %}
+        <h2>Ошибка</h2>
+        <p>{{ error }}</p>
+    {% endif %}
+    {% if current_user.is_authenticated %}
+        <form action="/news/edit/{{ post.id }}">
+            <input type="submit" value="Редактировать">
+        </form>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+{% block head %}
+{{ super() }}
+<style type="text/css">
+
+</style>
+{% endblock %}
+{% block content %}
+<form action="/news/edit/{{ post.id }}" method="POST">
+    <input type="hidden" name="_method" value="PUT">
+    <div>
+        <label for="title"></label>
+        <input type="text" id="title" name="title" placeholder="Заголовок" value="{{ post.title }}"required>
+    </div>
+    <div>
+        <label for="body"></label>
+        <textarea style="width: 90%; height: 20em" id="body" name="body" required>{{ post.body }}</textarea>
+    </div>
+    <input type="submit" value="Отредактировать">
+</form>
+{% endblock %}

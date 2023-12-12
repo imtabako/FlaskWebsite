@@ -7,25 +7,18 @@
 </style>
 {% endblock %}
 {% block content %}
-<h2>Жопа</h2>
-<div class="navbar-end">
-    <a href="{{ url_for('main.index') }}" class="navbar-item">
-        Home
-    </a>
-    {% if current_user.is_authenticated %}
-    <a href="{{ url_for('main.profile') }}" class="navbar-item">
-        Profile
-    </a>
-    {% endif %}
-    {% if not current_user.is_authenticated %}
-    <a href="{{ url_for('auth.login') }}" class="navbar-item">
-        Login
-    </a>
-    {% endif %}
-    {% if current_user.is_authenticated %}
-    <a href="{{ url_for('auth.logout') }}" class="navbar-item">
-        Logout
-    </a>
-    {% endif %}
-</div>
+    <ul>
+    {% for post in posts %}
+        <li>
+            <h4>{{ post['title'] }}</h4>
+            <p>Автор: {{ post['author_username'] }}</p>
+            <p>{{ post['created'].strftime('%d.%m.%Y %H:%M') }}</p>
+            <a href="/news/{{ post.id }}">Подробнее</a>
+            <hr>
+        </li>
+    {% endfor %}
+    </ul>
+{% if current_user.is_authenticated %}
+    <a href="/news/create">Создать</a>
+{% endif %}
 {% endblock %}

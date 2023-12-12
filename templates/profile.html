@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="title">
-  Welcome, {{ name }}!
-</h1>
+{% if user %}
+    <h1 class="title">
+        <h2>Добро пожаловать, {{ user.name }}</h2>
+        <hr>
+        <p>Логин: {{ user.username }}</p>
+        <p>Зашифрованный пароль: {{ user.password }}</p>
+        <p>Имя: {{ user.name }}</p>
+        <p>Фамилия: {{ user.lastname }}</p>
+        <p>Должность: {{ user.position }}</p>
+    </h1>
+{% endif %}
+{% if error %}
+    <h2>Ошибка</h2>
+    <p>{{ error }}</p>
+{% endif %}
 {% endblock %}

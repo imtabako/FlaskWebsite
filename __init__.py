@@ -41,13 +41,19 @@ def create_app(test_config=None):
     with app.app_context():
         db.create_all()
 
-    # try to create admin if no users
-    from .models import User
+    # try to create admin and 2 sample news if no users (first run)
+    from .models import User, Post
     with app.app_context():
         if not User.query.all():
-            print('Creating admin')
+            print('Creating admin, 2 posts')
+
             admin = User(username='admin', password=generate_password_hash('admin'), name='Admin', lastname='Admin', position='Admin')
             db.session.add(admin)
+
+            post = Post(author_username='admin', editor_username='admin', title='Тестовый заголовок', body='Текст текст текст текст текст', author_id=admin.id)
+            db.session.add(post)
+            post = Post(author_username='admin', editor_username='admin', title='Вторая новость', body='Длинные тексты (лонгриды), где большой объем сочетается с глубоким погружением в тему, становятся все более популярными в печатных и онлайновых изданиях, так как позволяют изданию выделиться из информационного шума. Цели исследования – выявить распространенность лонгридов в российских СМИ и содержательные и композиционные особенности этих текстов. Исследование включает мониторинг публикаций в центральных российских изданиях и последующий контент-анализ 10 материалов из 10 печатных и онлайновых изданий. Выводы исследования: лонгриды присутствуют в изданиях разных типов: от ежедневных газет − до нишевых новостных сайтов. Они посвящены, как правило, описанию нового явления; имеют объем от 2 до 4 тыс. слов и построены по композиционной схеме чередования примеров и обобщений.\n\nКлючевые слова: лонгрид, жанры, тренд, российская пресса.', author_id=admin.id)
+            db.session.add(post)
             db.session.commit()
 
     # user sessions handling
@@ -55,7 +61,7 @@ def create_app(test_config=None):
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    # from .models import User
+    # from .models import User 
 
     @login_manager.user_loader
     def load_user(user_id):
