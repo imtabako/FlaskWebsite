@@ -7,7 +7,7 @@
 </style>
 {% endblock %}
 {% block content %}
-<form action="/news/create" method="POST">
+<form action="/news/create" enctype="multipart/form-data" method="POST">
     <div>
         <label for="title"></label>
         <input type="text" id="title" name="title" placeholder="Заголовок" required>
@@ -15,6 +15,9 @@
     <div>
         <label for="body"></label>
         <textarea id="body" name="body" required></textarea>
+    </div>
+    <div>
+        <input type="file" name="main-img">
     </div>
     <input type="submit" value="Опубликовать новость">
 </form>

@@ -6,6 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 from werkzeug.security import generate_password_hash
 
+UPLOAD_FOLDER = 'photos/'
+
 
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
@@ -15,6 +17,7 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
+        UPLOAD_FOLDER=UPLOAD_FOLDER,
         SECRET_KEY='dev',
         SQLALCHEMY_DATABASE_URI='sqlite:///db.sqlite'
     )

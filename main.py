@@ -1,13 +1,22 @@
-from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for, request
 from flask_login import current_user, login_required
 from datetime import datetime
 from werkzeug.security import generate_password_hash
+from werkzeug.utils import secure_filename
 
 from . import db
 from .models import Post, User
 
 
 main = Blueprint('main', __name__)
+
+UPLOAD_FOLDER = 'photos/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+# functions for uploading files
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 # News funtionality
@@ -35,7 +44,7 @@ def show_post(id):
 @main.route('/news/create')
 @login_required
 def editor_post():
-    return render_template('editor.html')
+    return render_template('createpost.html')
 
 
 # Create new news item, POST
@@ -44,6 +53,12 @@ def editor_post():
 def create_post():
     title = request.form.get('title')
     body = request.form.get('body')
+
+    if 'file' not in request.files:
+        print('No file part')
+        error='Необходимо добавить фото'
+        
+        return redirect(url_for('main.create_post'))
 
     error = None
     if not title:
