@@ -14,27 +14,27 @@ function scrollFunc() {
     console.log(document.documentElement.scrollTop);
 
     if (document.documentElement.scrollTop == 0) {
-        header.style.height = '80px';
+        // header.style.height = '80px';
+        header.style.transform = 'translateY(0px)';
         content.style.top = '80px';
     }
 
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
         topButton.style.opacity = '1';
         topButton.style.pointerEvents = 'all';
-        // header.style.height = '0';
     } else {
-        // topButton.style.display = "none";
         topButton.style.opacity = '0';
         topButton.style.pointerEvents = 'none';
-        // header.style.height = '80px';
     }
 
     if (diffScroll > 0) {
-        header.style.height = '0';
+        // header.style.height = '0';
+        header.style.transform = 'translateY(-100%)';
         // content.style.top = '0';
 
     } else if (diffScroll < 0) {
-        header.style.height = '80px';
+        // header.style.height = '80px';
+        header.style.transform = 'translateY(0px)';
         // content.style.top = '80px';
     }
 }

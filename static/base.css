@@ -1,29 +1,86 @@
+:root {
+    --header-bg: #232323;
+    --textBack: #000;
+    --textWhite: #fff;
+    --grayTopButton: #333;
+    --blue: #00a3e0;
+    --red: #e4002b;
+    --green: #64a70b;
+    --darkBlue: #004a99;
+    --magenta: #b70060;
+    --purple: #781778;
+    --brightGreen: #c9d200;
+    --turquoise: #00aba4;
+    --white: #ffffff;
+    --black: #000000;
+    --gray: #9d9d9d;
+    --lightGray: #e3e3e3;
+}
+
+/* Шапка */
 #header {
-    background-color: #232323;
-    padding: 0 0 0 0;
+    background-color: var(--header-bg);
+    padding: 0 0 0 40px;
     height: 80px;
-    color: #fff;
+    color: var(--white-fg);
     text-align: center;
     font-weight: bold;
     position: fixed;
     top: 0;
-    width: 100%;
+    left: 0;
+    right: 0;
+    /* width: 100%; */
     transition: .5s;
     overflow: hidden;
     z-index: 60;
-    justify-content: center;
+    transform: translateY(0px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    font-size: 14px;
 }
 
 #header a {
     text-decoration: none;
-    margin-right: 20px;
 }
 
 #header a:visited {
     text-decoration: none;
-    color: #fff;
+    color: var(--textWhite);
 }
 
+/* Лого шапки */
+.navbar-logo-wrapper {
+    
+}
+
+/* Навигация шапки */
+.navbar-menu {
+    display: flex;
+    padding: 0 0 0 0;
+}
+
+.navbar-menu > * {
+    margin-left: 30px;
+}
+
+.navbar-menu > :first-child {
+    margin-left: 0;
+}
+
+.navbar-item {
+    list-style-type: none;
+    margin-left: 30px;
+}
+
+/* Элемент профиля (логин) в шапке */
+.navbar-login {
+    padding: 0 20px 0 20px;
+}
+
+/* Кнопка "вверх" */
 #top-btn {
     display: block; /* Hidden by default */
     position: fixed; /* Fixed/sticky position */
@@ -32,7 +89,7 @@
     z-index: 99; /* Make sure it does not overlap */
     border: none; /* Remove borders */
     outline: none; /* Remove outline */
-    background-color: #004a99; /* Set a background color */
+    background-color: var(--darkBlue); /* Set a background color */
     color: white; /* Text color */
     cursor: pointer; /* Add a mouse pointer on hover */
     padding: 15px; /* Some padding */
@@ -47,7 +104,7 @@
 }
   
 #top-btn:hover {
-    background-color: #555; /* Add a dark-grey background on hover */
+    background-color: var(--grayTopButton); /* Add a dark-grey background on hover */
 
 /* transition */
     transition : all .3s;
