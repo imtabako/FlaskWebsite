@@ -19,6 +19,11 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+@main.route('/about')
+def about_page():
+    return render_template('about.html')
+
+
 # News funtionality
 # Home page, show 3 top news
 @main.route('/')

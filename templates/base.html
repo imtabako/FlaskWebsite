@@ -21,6 +21,11 @@
         <!-- Навигация -->
         <ul class="navbar-menu">
             <li class="navbar-item">
+                <a href="{{ url_for('main.about_page') }}">
+                    О нас
+                </a>
+            </li>
+            <li class="navbar-item">
                 <a href="{{ url_for('main.index') }}">
                     Главная
                 </a>
@@ -59,10 +64,10 @@
         {% endif %}
     </div>
     <button onclick="scroll_top()" id="top-btn">TOP</button>
-    <div class="bg-image">
-        {% block bgimage %}
-        {% endblock %}
-    </div>
+    <!-- Блок для добавления картинки на страницу "О нас", новости и тд -->
+    <!-- Всегда должен быть <div class="inner-title" style="background-image: url(...)" -->
+    {% block inner_title %}
+    {% endblock %}
     <!-- Контент, зависит от текущей страницы -->
     <div id="content">{% block content %}{% endblock %}</div>
     <!-- Футер -->
