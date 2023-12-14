@@ -2,11 +2,16 @@
 {% block title %}Главная{% endblock %}
 {% block head %}
 {{ super() }}
-<style type="text/css">
-
-</style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" />
 {% endblock %}
 {% block content %}
+<!-- Первый пост (О нас?) -->
+<div>
+    
+</div>
+<div>
+
+</div>
     <ul>
     {% for post in posts %}
         <li>
