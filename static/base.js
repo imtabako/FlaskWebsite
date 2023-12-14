@@ -10,9 +10,6 @@ function scrollFunc() {
     const diffScroll = document.documentElement.scrollTop - prevScrollTop;
     prevScrollTop = document.documentElement.scrollTop;
 
-    console.log(prevScrollTop);
-    console.log(document.documentElement.scrollTop);
-
     if (document.documentElement.scrollTop == 0) {
         // header.style.height = '80px';
         header.style.transform = 'translateY(0px)';

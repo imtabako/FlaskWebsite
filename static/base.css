@@ -1,6 +1,8 @@
 :root {
     --header-bg: #232323;
-    --textBack: #000;
+    --footer-bg: #121212;
+    --textDefault: #232323;
+    --textBlack: #000;
     --textWhite: #fff;
     --grayTopButton: #333;
     --blue: #00a3e0;
@@ -15,6 +17,13 @@
     --black: #000000;
     --gray: #9d9d9d;
     --lightGray: #e3e3e3;
+}
+
+body {
+    font-size: 100%;
+    line-height: 1.5;
+    font-weight: 400;
+    color: var(--textDefault);
 }
 
 /* Шапка */
@@ -60,6 +69,7 @@
 .navbar-menu {
     display: flex;
     padding: 0 0 0 0;
+    margin: 0 0 0 0;
 }
 
 .navbar-menu > * {
@@ -113,7 +123,43 @@
 }
 
 #content {
-    position: absolute;
-    width: 100%;
+    /* position: absolute; */
+    /* width: 100%; */
     top: 80px;
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    width: 90%;
+    max-width: 1400px;
+}
+
+#footer {
+    background-color: var(--footer-bg);
+    bottom: 0;
+    padding: 60px 0 60px 0;
+    color: var(--textWhite);
+}
+
+.footer-nav-wrapper {
+
+}
+
+.footer-col {
+
+}
+
+.footer-border {
+    margin: 40px 0 20px 0;
+    color: var(--textWhite);
+    height: 1px;
+    opacity: 1;
+    width: 100%;
+}
+
+.inner-container {
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    width: 92%;
+    max-width: 1140px;
 }

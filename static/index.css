@@ -2,3 +2,117 @@ section {
     position: relative;
     padding-top: 80px;
 }
+
+.divider {
+    background-color: #000;
+    margin: 10px 0 0 0;
+    width: 100%;
+    height: 1px;
+    border: 0;
+    opacity: 1;
+}
+
+/* section hr {
+    margin: 20px 0 50px 0;
+    font-size: calc(42px + ( (1vw - 4.8px) * 1.0714285714) );
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    font-weight: 500;
+} */
+
+section h2 {
+    margin: 20px 0 50px 0;
+    font-size: calc(42px + ( (1vw - 4.8px) * 1.0714285714) );
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    font-weight: 500;
+}
+
+.pre-headline {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    /* text-transform: none; */
+}
+
+.color-blue {
+    color: var(--darkBlue);
+}
+/* 
+.box-link__wrapper {
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+} */
+
+.operations-section {
+    display: grid;
+    position: relative;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 250px 250px;
+    gap: 30px;
+}
+
+.box-link {
+    margin: 0 0 0 0;
+}
+
+.box-link__wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.box-link__wrapper figure {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    margin: 0 0 0 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.box-link-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.box-link-caption {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px 30px 20px 30px;
+    display: flex;
+    /* font-size: calc(22px + ( (1vw - 4.8px) * 0.5357142857) ); */
+}
+
+.box-link-caption h3 {
+    color: var(--textWhite);
+}
+
+.logos {
+    /* padding: 70px 40px 60px 40px; */
+    padding-top: 70px;
+    padding-bottom: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 250px;
+}
+
+.logo-link {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 225px;
+}
