@@ -90,6 +90,10 @@ body {
     padding: 0 20px 0 20px;
 }
 
+.below-header {
+    height: 80px;
+}
+
 /* Кнопка "вверх" */
 #top-btn {
     display: block; /* Hidden by default */
@@ -122,10 +126,16 @@ body {
     -moz-transition : all .3s;
 }
 
+#content-wrapper {
+    height: 100%;
+    width: 100%;
+    background-color: var(--lightGray);
+}
+
 #content {
     /* position: absolute; */
     /* width: 100%; */
-    top: 80px;
+    /* top: 80px; */
     position: relative;
     margin-right: auto;
     margin-left: auto;

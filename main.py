@@ -24,12 +24,17 @@ def about_page():
     return render_template('about.html')
 
 
+@main.route('/feedback')
+def feedback():
+    return render_template('feedback.html')
+
+
 # News funtionality
 # Home page, show 3 top news
 @main.route('/')
 def index():
     posts = Post.query.order_by(Post.edited.desc()).limit(3)
-    return render_template('index.html', posts=posts)
+    return render_template('index.html', posts=posts, post=posts[0])
 
 
 # Single news item

@@ -1,0 +1,328 @@
+.div-main {
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+.div-1 {
+    margin-top: 1em;
+}
+
+.div-label-main-1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--textBlack);
+}
+
+.div-2 {
+    margin-top: 2em;
+}
+
+.div-9 input {
+    width: 3em;
+    height: 2em;
+}
+
+.div-label-main-2 {
+    color: var(--gray);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.div-3 {
+    margin-top: 1em;
+    border-bottom: 1px solid var(--black);
+    width: 95%;
+}
+
+.div-3 input {
+    border: 1px black ;
+    background-color: var(--lightGray);
+    width: 100%;
+    height: 20px;
+    padding-bottom: 5px;
+}
+
+.div-4 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.div-10 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 2em;
+}
+
+.div-10 input {
+    cursor: pointer;
+    opacity: 0.9;
+    transform: scale(1.3);
+}
+
+.div-left {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-top: 2em;
+}
+
+.my_form input {
+    cursor: pointer;
+    opacity: 0.9;
+    transform: scale(1.3);
+}
+
+.div-right {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-top: 2em;
+}
+
+.div-5 {
+    width: 100%;
+}
+
+.div-6 {
+    width: 90%;
+    margin-top: 1em;
+    border-bottom: 1px solid var(--black);
+}
+
+.div-6 input {
+    width: 100%;
+    height: 20px;
+    padding-bottom: 5px;
+    border: 1px black ;
+    background-color: var(--lightGray);
+}
+
+.div-6 select {
+    width: 100%;
+    height: 20px;
+    padding-bottom: 1px;
+    border: 1px black ;
+    background-color: var(--lightGray);
+}
+    
+.div-7 {
+        width: 100%;
+        margin-top: 1em;
+}
+
+.div-7-1 {
+    width: 100%;
+    margin-top: 1em;
+    margin-bottom: 5.5px;
+}
+
+.div-8 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--textWhite);
+	background-color: var(--darkBlue);
+	display: inline-block;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+	background-color: var(--blue);
+}
+
+.inputfile:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+
+.div-9 {
+    width: 100%;
+    margin-top: 1em;
+}
+
+.div-11 {
+    width: 100%;
+    margin-top: 1em;
+}
+
+.div-11 input {
+    width: 10em;
+    height: 3em;
+    font-size: 15px;
+	font-weight: 600;
+	color: var(--textWhite);
+	background-color: var(--darkBlue);
+    text-transform: uppercase;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    cursor: pointer;
+    border: none;
+}
+
+.div-11 input:hover {background-color: var(--blue)}
+
+.div-11 input:active {
+  background-color: var(--blue);
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+
+
+
+
+
+
+
+
+
+
+.div-label {
+    display: flex;
+    align-items: left;
+}
+
+
+
+
+.div-label label {
+    color: var(--textDefault);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+
+
+
+
+.div-22313213213 {
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    flex-direction: row;
+}
+
+.div12323 label {
+    text-align: center;
+    color: var(--textWhite);
+    font-weight: 700;
+    font-size: 18px ;
+}
+
+.div3211232131 {
+    border-top: 1px  solid rgb(124, 115, 115); /* Цвет и толщина границы */
+    border-bottom: 0;
+    border-left: 1px solid rgb(124, 115, 115);
+    border-right: 1px solid rgb(124, 115, 115);
+    border-radius: 20px 20px 0 0; /* Создает круглую форму */
+    width: auto;
+    padding: 1em;
+    min-width: 400px;
+    display: flex;
+    background-color: var(--darkBlue);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    align-items: center;
+    justify-content: center;
+}
+
+.div22132132 {
+    width: auto;
+    min-width: 400px; /* Задайте нужную ширину */
+    height: auto; /* Задайте нужную высоту */
+    border: 1px solid rgb(124, 115, 115); /* Цвет и толщина границы */
+    border-radius: 0 0 20px 20px; /* Создает круглую форму */
+    padding: 1em;
+    justify-content: center;
+    background-color: var(--white);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.div-in2133123 {
+    width: auto; /* Задайте нужную ширину */
+    height: auto; /* Задайте нужную высоту */
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    min-height: 30px;
+    align-items: center;
+}
+
+.div-in2133213 input {
+    font-size: 15px;
+    line-height: 1.2;
+    position: relative;
+    display: block;
+    width: 70%;
+    height: 40px;
+    border-radius: 27px;
+    padding: 0 35px 0 35px;
+    color: var(--textDefault);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.div-in3123213 button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    width: 88%;
+    height: 40px;
+    background-color: #818181;
+    border-radius: 25px;
+    font-size: 15px;
+    background-color: var(--darkBlue);
+    color: var(--textWhite);
+    line-height: 1.2;
+    text-transform: uppercase;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    cursor: pointer;
+}
+
+.div-in button:hover {background-color: var(--blue)}
+
+.div-in button:active {
+  background-color: var(--blue);
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.div-in-checkbox {
+    width: auto; /* Задайте нужную ширину */
+    height: auto; /* Задайте нужную высоту */
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    min-height: 30px;
+    align-items: left;
+    margin-left: 5%;
+    align-items: center;
+}

@@ -1,18 +1,39 @@
 {% extends 'base.html' %}
+{% block title %}Профиль{% endblock %}
+{% block head %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}" />
+{% endblock %}
 {% block content %}
 {% if user %}
-    <h1 class="title">
-        <h2>Добро пожаловать, {{ user.name }}</h2>
-        <hr>
-        <p>Логин: {{ user.username }}</p>
-        <p>Зашифрованный пароль: {{ user.password }}</p>
-        <p>Имя: {{ user.name }}</p>
-        <p>Фамилия: {{ user.lastname }}</p>
-        <p>Должность: {{ user.position }}</p>
-    </h1>
+    <div class="div-main">
+        <div class="div1">
+            <label>ПРОФИЛЬ</label>
+        </div>
+        <div class="div2">
+            <div class="div-in">
+                <div><label>Логин</label></div>
+                <div><p>e39107</p></div>
+            </div>
+            <div class="div-in">
+                <div><label>Имя</label></div>
+                <div><p>Борис</p></div>
+            </div>
+            <div class="div-in">
+                <div><label>Фамилия</label></div>
+                <div><p>Зимин</p></div>
+            </div>
+            <div class="div-in-last">
+                <div><label>Должность</label></div>
+                <div><p>Преподаватель</p></div>
+            </div>
+        </div>
+    </div>
 {% endif %}
 {% if error %}
-    <h2>Ошибка</h2>
-    <p>{{ error }}</p>
+    <div class="div-main">
+        <h2>Ошибка</h2>
+        <p>{{ error }}</p>
+    </div>
 {% endif %}
 {% endblock %}

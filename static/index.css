@@ -21,7 +21,7 @@ section {
 } */
 
 section h2 {
-    margin: 20px 0 50px 0;
+    margin: 20px 0 50px 20px;
     font-size: calc(42px + ( (1vw - 4.8px) * 1.0714285714) );
     letter-spacing: -0.01em;
     line-height: 1.2;
@@ -99,7 +99,7 @@ section h2 {
 
 .logos {
     /* padding: 70px 40px 60px 40px; */
-    padding-top: 70px;
+    padding-top: 40px;
     padding-bottom: 60px;
     display: flex;
     flex-direction: row;
@@ -115,4 +115,126 @@ section h2 {
     background-size: contain;
     background-position: center;
     width: 225px;
+}
+
+.news-section-body {
+    width: 100%;
+    height: 85vh;
+}
+
+.news-section-left {
+    width: 50%;
+    height: 100%;
+    float: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.news-item {
+    padding-left: 40px;
+    padding-right: 20px;
+    height: 100%;
+    background-color: var(--lightGray);
+}
+
+.article-container h2 {
+    font: 14px;
+}
+
+.article-container {
+    padding-top: 20px;
+    padding-bottom: 80px;
+}
+
+.news-item hr {
+    opacity: 1;
+    height: 1px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    left: 0;
+    width: 60%;
+}
+
+.news-item button {
+    box-shadow: none;
+    border-style: solid;
+    border-color: var(--blue);
+    padding: 10px 10px 10px 10px;
+}
+
+.news-item button a {
+    text-decoration: none;
+}
+
+.news-section-right {
+    background-position: center;
+    background-size: cover;
+    width: 50%;
+    height: 100%;
+    float: right;
+}
+
+/* карусель */
+.carousel-indicators {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: auto;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+
+.carousel-button-wrapper {
+    height: 100%;
+    width: 100%;
+    padding-left: 40px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.carousel-button-wrapper button {
+    box-shadow: none;
+    border-style: solid;
+    border-color: var(--blue);
+    padding: 10px 10px 10px 10px;
+    background-color: transparent;
+    /* width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    bottom: auto;
+    right: auto;
+    cursor: default; */
+}
+
+.carousel-button-wrapper button a {
+    text-decoration: none;
+}
+
+.post-title {
+    margin: 0 0 0 0;
+    left: 0;
+    font-size: calc(32px + ( (1vw - 4.8px) * 1.0714285714) );
+}
+
+.carousel-item-left {
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+
+.carousel-item-right {
+    float: right;
+    width: 50%;
+    height: 100%;
+}
+
+.active > .carousel-item-left > hr {
+    opacity: 1;
+    height: 2px;
 }

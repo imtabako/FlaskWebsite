@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Обратная связь{% endblock %}
+{% block head %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='feedback.css') }}" />
+{% endblock %}
+{% block content %}
+<form>
+    <div class="below-header"></div>
+    <div class="div-main">
+        <div class="div-label-main-1">
+            <label>Обратная связь</label>
+        </div>
+        <div class="div-1">
+            <label class="div-label-main-2">Выберите тип обращения</label>
+        </div>
+        <div class="div-2">
+            <label>Наименование организации:</label>
+        </div>
+        <div class="div-3">
+            <input id="input_feedback" type="text" placeholder="Наименование организации">
+        </div>
+        <div class="div-8">
+            <div class="div-4">
+                <div class="div-left">
+                    <div class="div-5">
+                        <label>ИНН:</label>
+                    </div>
+                    <div class="div-6">
+                        <input id="input_feedback" type="text" placeholder="ИНН">
+                    </div>
+                </div>
+                <div class="div-right">
+                    <div>
+                        <label class="div-5">Тип контрагента:</label>
+                    </div>
+                    <div>
+                        <p>
+                        <input id="input_feedback" type="radio" name="type-face" value="f1"> Юридическое лицо </input>
+                        </p>
+                        <p>
+                        <input id="input_feedback" type="radio" name="type-face" value="f2"> Госучреждения </input>
+                        </p>
+                        <p>
+                        <input id="input_feedback" type="radio" name="type-face" value="f3"> Индивидуальный предприниматель </input>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="div-4">
+            <div class="div-left">
+                <div class="div-7">
+                    <label>КПП:</label>
+                </div>
+                <div class="div-6">
+                    <input id="input_feedback" type="text" placeholder="КПП">
+                </div>
+                <div class="div-7">
+                    <label>Телефон:</label>
+                </div>
+                <div class="div-6">
+                    <input id="input_feedback" type="tel" placeholder="+7(555)555-5555">
+                </div>
+                <div class="div-7">
+                    <label>Информация:</label>
+                </div>
+                <div class="div-6">
+                    <input id="input_feedback" type="text" placeholder="Информация">
+                </div>
+            </div>
+            <div class="div-right">
+                <div class="div-7">
+                    <label class="div-label">ФИО:</label>
+                </div>
+                <div class="div-6">
+                    <input id="input_feedback" type="text" placeholder="ФИО">
+                </div>
+                <div class="div-7">
+                    <label>Адрес электронной почты:</label>
+                </div>
+                <div class="div-6">
+                    <input id="input_feedback" type="email" placeholder="Адрес электроной почты">
+                </div>
+                <div class="div-7-1">
+                    <label>Предпочтительный способ коммуникации:</label>
+                </div>
+                <div class="div-6">
+                    <select id="input_feedback">
+                        <option value="tel">Телефон</option>
+                        <option value="email">Электроная почта</option>
+                    </select>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="div-2">
+            <label>Документы:</label>
+        </div>
+        <div class="div-9">
+            <input id="input_feedback" type="file" multiple name="file" class="inputfile" data-multiple-caption="{count} files selected"/>
+            <label>Загрузить файл</label>
+        </div>
+        <div class="div-10">
+            <input type="checkbox">
+            <label>Я даю согласие на обработку моих персональных данных</label>
+        </div>
+        <div class="div-11">
+            <input type="submit"/>
+        </div>
+    </div>
+</form>
+{% endblock %}

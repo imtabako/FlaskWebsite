@@ -1,36 +1,30 @@
 {% extends "base.html" %}
-
+{% block title %}Профиль{% endblock %}
+{% block head %}
+{{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" />
+{% endblock %}
 {% block content %}
-<div class="column is-4 is-offset-4">
-    <h3 class="title">Login</h3>
-    <div class="box">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="notification is-danger">
-                {{ messages[0] }}
-            </div>
-        {% endif %}
-        {% endwith %}
-        <form method="POST" action="/login">
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="username" name="username" placeholder="Логин" autofocus="">
-                </div>
-            </div>
-
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="password" name="password" placeholder="Пароль">
-                </div>
-            </div>
-            <div class="field">
-                <label class="checkbox">
-                    <input type="checkbox" name="remember">
-                    Запомнить меня
-                </label>
-            </div>
-            <button class="button is-block is-info is-large is-fullwidth">Войти</button>
-        </form>
+<div class="div-main">
+    <div class="div1">
+        <label>АВТОРИЗАЦИЯ</label>
     </div>
+    <form action="/login" method="POST">
+        <div class="div2">
+            <div class="div-in">
+                <input type="text" class="input" name="username" placeholder="Логин" required>
+            </div>
+            <div class="div-in">
+                <input type="password" class="input" name="password" placeholder="Пароль" required>
+            </div>
+            <div class="div-in-checkbox">
+                <input type="checkbox" class="input-checkbox" name="remember">
+                <label>Запомнить вход</label>
+            </div>
+            <div class="div-in">
+                <button>ВОЙТИ</button>
+            </div>
+        </div>
+    </form>
 </div>
 {% endblock %}
