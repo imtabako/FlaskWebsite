@@ -3,13 +3,6 @@
 {% block head %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" />
-    <style>
-    .carousel-inner > .item > img,
-    .carousel-inner > .item > a > img {
-      width: 70%;
-      margin: auto;
-    }
-    </style>
 {% endblock %}
 {% block content %}
 <!-- Первый пост (О нас?) (Настоящая шапка?)-->
@@ -26,7 +19,7 @@
         <a class="box-link" href="/">
             <div class="box-link__wrapper">
                 <figure>
-                    <img class="box-link-img" style="background-image: linear-gradient(360deg, rgba(0, 0, 0, 0.8) 11.14%, rgba(0, 0, 0, 0) 48.56%), url({{ url_for('static', filename='op1.jpeg') }})"/>
+                    <img class="box-link-img" style="background-image: linear-gradient(360deg, rgba(0, 0, 0, 0.8) 11.14%, rgba(0, 0, 0, 0) 48.56%), url({{ url_for('static', filename='img/op1.jpeg') }})"/>
                     <div class="box-link-caption">
                         <h3>Деятельность 1</h3>
                     </div>
@@ -36,7 +29,7 @@
         <a class="box-link" href="/">
             <div class="box-link__wrapper">
                 <figure>
-                    <img class="box-link-img" style="background-image: linear-gradient(360deg, rgba(0, 0, 0, 0.8) 11.14%, rgba(0, 0, 0, 0) 48.56%), url({{ url_for('static', filename='op2.jpeg') }})"/>
+                    <img class="box-link-img" style="background-image: linear-gradient(360deg, rgba(0, 0, 0, 0.8) 11.14%, rgba(0, 0, 0, 0) 48.56%), url({{ url_for('static', filename='img/op2.jpeg') }})"/>
                     <div class="box-link-caption">
                         <h3>Деятельность 2</h3>
                     </div>
@@ -46,7 +39,7 @@
         <a class="box-link" href="/">
             <div class="box-link__wrapper">
                 <figure>
-                    <img class="box-link-img" style="background-image: linear-gradient(360deg, rgba(0, 0, 0, 0.8) 11.14%, rgba(0, 0, 0, 0) 48.56%), url({{ url_for('static', filename='op3.jpeg') }})"/>
+                    <img class="box-link-img" style="background-image: linear-gradient(360deg, rgba(0, 0, 0, 0.8) 11.14%, rgba(0, 0, 0, 0) 48.56%), url({{ url_for('static', filename='img/op3.jpeg') }})"/>
                     <div class="box-link-caption">
                         <h3>Деятельность 3</h3>
                     </div>
@@ -56,7 +49,7 @@
         <a class="box-link" href="/">
             <div class="box-link__wrapper">
                 <figure>
-                    <img class="box-link-img" style="background-image: linear-gradient(360deg, rgba(0, 0, 0, 0.8) 11.14%, rgba(0, 0, 0, 0) 48.56%), url({{ url_for('static', filename='op4.jpeg') }})"/>
+                    <img class="box-link-img" style="background-image: linear-gradient(360deg, rgba(0, 0, 0, 0.8) 11.14%, rgba(0, 0, 0, 0) 48.56%), url({{ url_for('static', filename='img/op4.jpeg') }})"/>
                     <div class="box-link-caption">
                         <h3>Деятельность 4</h3>
                     </div>
@@ -70,7 +63,7 @@
     <hr class="divider animated">
     <h2>Новости</h2>
     <!-- Карусель 3 последних новостей -->
-    <div class="news-section-body">
+    <!-- <div class="news-section-body">
         <div class="news-section-left">
             {% for post in posts %}
                 <div class="news-item">
@@ -83,26 +76,11 @@
                 </div>
             {% endfor %}
         </div>
-            <!-- <div class="news-item" hidden>
-                <div class="article-container">
-                    <h2>{{ post['title'] }}</h2>
-                </div>
-                <p>{{ post['created'].strftime('%d %B %Y гг.') }}</p>
-                <a href="/news/{{ post.id }}">Подробнее</a>
-            </div>
-            <div class="news-item" hidden>
-                <div class="article-container">
-                    <h2>{{ post['title'] }}</h2>
-                </div>
-                <p>{{ post['created'].strftime('%d %B %Y гг.') }}</p>
-                <a href="/news/{{ post.id }}">Подробнее</a>
-            </div> -->
-        <div class="news-section-right" style="background-image: url({{url_for('static', filename='op1.jpeg')}});">
-            <!-- <img src="/static/op1.jpeg"> -->
+        <div class="news-section-right" style="background-image: url({{url_for('static', filename='img/op1.jpeg')}});">
         </div>
-    </div>
-    <div id="carouselExampleIndicators" class="carousel slide">
-        <div class="carousel-indicators">
+    </div> -->
+    <div id="carouselExampleIndicators" class="news-section-body carousel slide">
+        <div class="news-section-left carousel-indicators">
             {% for post in posts %}
             <div class="carousel-button-wrapper">
                 <div class="article-container">
@@ -110,7 +88,7 @@
                 </div>
                 <p>{{ post['created'].strftime('%d %B %Y гг.') }}</p>
                 <hr class="article-hr">
-                <button>
+                <button class="article-more-btn">
                     <a href="/">Подробнее</a>
                 </button>
                 {% if loop.index0 == 0 %}
@@ -126,13 +104,13 @@
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="/static/op1.jpeg" alt="1" class="d-block w-100" alt="...">
+            <img src="/img/op1.jpeg" alt="1" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
-            <img src="/static/op2.jpeg" alt="2" class="d-block w-100" alt="...">
+            <img src="/img/op2.jpeg" alt="2" class="d-block w-100" alt="...">
           </div>
           <div class="carousel-item">
-            <img src="/static/op3.jpeg" alt="3" class="d-block w-100" alt="...">
+            <img src="/img/op3.jpeg" alt="3" class="d-block w-100" alt="...">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -151,9 +129,9 @@
 <!-- Лого компаний -->
 <hr class="divider">
 <div class="logos">
-    <a class="logo-link" href="/" style="background-image: url({{ url_for('static', filename='companylogo1.jpeg') }});"></a>
-    <a class="logo-link" href="/" style="background-image: url({{ url_for('static', filename='companylogo2.png') }});"></a>
-    <a class="logo-link" href="/" style="background-image: url({{ url_for('static', filename='companylogo3.png') }});"></a>
-    <a class="logo-link" href="/" style="background-image: url({{ url_for('static', filename='companylogo4.png') }});"></a>
+    <a class="logo-link" href="/" style="background-image: url({{ url_for('static', filename='img/companylogo1.jpeg') }});"></a>
+    <a class="logo-link" href="/" style="background-image: url({{ url_for('static', filename='img/companylogo2.png') }});"></a>
+    <a class="logo-link" href="/" style="background-image: url({{ url_for('static', filename='img/companylogo3.png') }});"></a>
+    <a class="logo-link" href="/" style="background-image: url({{ url_for('static', filename='img/companylogo4.png') }});"></a>
 </div>
 {% endblock %}

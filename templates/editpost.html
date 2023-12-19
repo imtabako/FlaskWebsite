@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 {% block title %}Главная{% endblock %}
 {% block head %}
-{{ super() }}
-<style type="text/css">
-
-</style>
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='posteditor.css') }}" />
 {% endblock %}
 {% block content %}
+<div class="below-header"></div>
 <form action="/news/edit/{{ post.id }}" method="POST">
     <input type="hidden" name="_method" value="PUT">
     <div>

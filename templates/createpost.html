@@ -1,24 +1,30 @@
 {% extends 'base.html' %}
 {% block title %}Главная{% endblock %}
 {% block head %}
-{{ super() }}
-<style type="text/css">
-
-</style>
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='posteditor.css') }}" />
 {% endblock %}
 {% block content %}
+<div class="below-header"></div>
 <form action="/news/create" enctype="multipart/form-data" method="POST">
-    <div>
-        <label for="title"></label>
+    <div class="editor-item title-editor">
+        <label for="title">Заголовок новости:</label>
+        <br>
         <input type="text" id="title" name="title" placeholder="Заголовок" required>
     </div>
-    <div>
-        <label for="body"></label>
-        <textarea id="body" name="body" required></textarea>
+    <!-- <div class="editor-item image-editor">
+        <input type="file">
+    </div> -->
+    <div class="editor-item body-editor">
+        <label for="body">Напишите новостную статью:</label>
+        <br>
+        <textarea id="body" class="mce-textarea" name="body" required></textarea>
     </div>
     <div>
         <input type="file" name="main-img">
     </div>
-    <input type="submit" value="Опубликовать новость">
+    <div class="editor-submit">
+        <input type="submit" value="Опубликовать новость">
+    </div>
 </form>
 {% endblock %}

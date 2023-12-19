@@ -66,9 +66,13 @@ def create_post():
 
     if 'file' not in request.files:
         print('No file part')
-        error='Необходимо добавить фото'
+        # error='Необходимо добавить фото'
         
-        return redirect(url_for('main.create_post'))
+        # return redirect(url_for('main.create_post'))
+    
+    print(title)
+    print(body)
+    print(request.files)
 
     error = None
     if not title:
@@ -295,7 +299,6 @@ def delete_user(id):
     
     user = User.query.get(id)
     print(user)
-    
 
     if user is None:
         error = 'No such user'

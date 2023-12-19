@@ -1,4 +1,5 @@
 section {
+    height: 100%;
     position: relative;
     padding-top: 80px;
 }
@@ -52,10 +53,11 @@ section h2 {
     position: relative;
     grid-template-columns: 50% 50%;
     grid-template-rows: 250px 250px;
-    gap: 30px;
+    gap: 20px;
 }
 
 .box-link {
+    width: 100%;
     margin: 0 0 0 0;
 }
 
@@ -129,13 +131,17 @@ section h2 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background-color: #fff;
+    background-image: url('/static/img/flame-left.png');
+    background-position: center;
+    background-size: cover;
 }
 
 .news-item {
     padding-left: 40px;
     padding-right: 20px;
     height: 100%;
-    background-color: var(--lightGray);
+    /* background-color: var(--lightGray); */
 }
 
 .article-container h2 {
@@ -198,21 +204,17 @@ section h2 {
 }
 
 .carousel-button-wrapper button {
+}
+
+.article-more-btn {
     box-shadow: none;
     border-style: solid;
     border-color: var(--blue);
     padding: 10px 10px 10px 10px;
     background-color: transparent;
-    /* width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    bottom: auto;
-    right: auto;
-    cursor: default; */
 }
 
-.carousel-button-wrapper button a {
+.article-more-btn a {
     text-decoration: none;
 }
 
