@@ -242,88 +242,57 @@ def create_post():
     return render_template('createpost.html', form=form)
 
 
-# Create new news item, POST
-@main.route('/news/create2', methods=['POST'])
-@login_required
-def create_post2():
-    title = request.form.get('title')
-    body = request.form.get('body')
-
-    if 'file' not in request.files:
-        print('No file part')
-        # error='Необходимо добавить фото'
-        
-        # return redirect(url_for('main.create_post'))
-    
-    print(title)
-    print(body)
-    print(request.files)
-
-    error = None
-    if not title:
-        error = 'Необходим заголовк'
-    elif not body:
-        error = 'Новость не может быть пустой'
-
-    if error is None:
-        new_post = Post(author_username=current_user.username, editor_username=current_user.username, title=title, body=body)
-
-        print(new_post)
-        # add new post to database
-        db.session.add(new_post)
-        db.session.commit()
-        print('added, commited')
-        
-        return redirect(url_for('main.show_post', id=new_post.id))
-
-    flash(error)
-    return redirect(url_for('main.index'))
-
-
 # Show news item editor, GET
 @main.route('/news/edit/<int:id>')
 @login_required
 def edit_post_show(id):
+    form = PostForm()
+
     post = Post.query.get(id)
     if post is None:
         error = 'Новость не найдена'
         return render_template('post.html', error=error)
+    title = post.title
+    body = post.body
+    editor = current_user.username
+    edited = datetime.now()
 
-    return render_template('editpost.html', post=post)
+    return render_template('editpost.html', post=post, form=form)
 
 
 # Show news item editor, POST
 @main.route('/news/edit/<int:id>', methods=['POST', 'PUT'])
 @login_required
 def edit_post(id):
+    form = PostForm()
+
     post = Post.query.get(id)
     if post is None:
         error = 'Новость не найдена'
         return render_template('post.html', error=error)
-
-    title = request.form.get('title')
-    body = request.form.get('body')
+    title = post.title
+    body = post.body
     editor = current_user.username
     edited = datetime.now()
-
-    error = None
-    if title is None:
-        error = 'Необходим заголовок'
-    if body is None:
-        error = 'Новость не может быть пустой'
-
-    print('editing post')
-    print(post)
     
-    post.title = title
-    post.body = body
-    post.editor = editor
-    post.edited = edited
+    if form.validate_on_submit:
+        title = form.title.data
+        body = form.body.data
+        editor = current_user.username
+        edited = datetime.now()
 
-    db.session.commit()
-    print('success')
+        print('editing post')
+        print(post)
+    
+        post.title = title
+        post.body = body
+        post.editor = editor
+        post.edited = edited
 
-    return redirect(url_for('main.index'))
+        db.session.commit()
+        print('success')
+        return redirect(url_for('main.index'))
+    return render_template('editpost.html', post=post, form=form)
 
 
 # Delete news item

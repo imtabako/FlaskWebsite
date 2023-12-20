@@ -3,8 +3,9 @@
 }
 
 .post {
-    color: var(--textDefault)
+    color: var(--textDefault);
     background-color: var(--white);
+    padding-bottom: 60px;
 }
 
 .post-title {
@@ -45,7 +46,7 @@
 }
 
 .edit-note {
-    padding-left: 1rem;
+    padding-right: .4rem;
     color: var(--textDefault);
     font-size: 14px;
     font-weight: 700;
@@ -58,4 +59,24 @@
 .post-body {
     width: 100%;
     padding-top: 40px;
+}
+
+
+.edit-post {
+    padding-top: 40px;
+}
+
+.edit-post-btn {
+    box-shadow: none;
+    border-style: solid;
+    border-color: var(--textDefault);
+    padding: 10px 10px 10px 10px;
+    background-color: transparent;
+    color: var(--textDefault);
+    text-decoration: none;
+}
+
+.edit-post-btn a {
+    color: var(--textDefault);
+    text-decoration: none;
 }

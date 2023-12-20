@@ -11,18 +11,13 @@
         <h1 class="post-title">{{ post.title }}</h1>
         <hr class="post-divider">
         <div class="post-pretext">
-            <p class="post-small">{{ post.created.strftime('%d.%m.%Y %H:%M') }}</p>
-            <p class="post-small">{{ post.author_username }}</p>
+            <p class="post-small">{{ post.author_username }}, {{ post.created.strftime('%d.%m.%Y') }}</p>
         </div>
         {% if post.author_username != post.editor_username or post.created != post.edited %}
             <div class="post-pretext edit-pretext">
                 <div class="edited-item">
-                    <p class="post-small">{{ post.created.strftime('%d.%m.%Y %H:%M') }} {{ post.author_username }}</p>
                     <p class="edit-note"> (ред.) </p>
-                </div>
-                <div class="edited-item">
-                    <p class="post-small"></p>
-                    <p class="edit-note"> (ред.)</p>
+                    <p class="post-small">{{ post.author_username }}, {{ post.created.strftime('%d.%m.%Y') }} </p>
                 </div>
             </div>
         {% endif %}
@@ -30,9 +25,10 @@
             {{ post.body | safe }}
         </div>
     
+    <hr class="post-divider">
     {% if current_user.is_authenticated %}
-        <form action="/news/edit/{{ post.id }}">
-            <input type="submit" value="Редактировать">
+        <form class="edit-post" action="/news/edit/{{ post.id }}">
+            <input class="edit-post-btn" type="submit" value="Редактировать">
         </form>
     {% endif %}
     </div>

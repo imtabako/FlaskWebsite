@@ -89,7 +89,7 @@
                 <p>{{ post['created'].strftime('%d %B %Y гг.') }}</p>
                 <hr class="article-hr">
                 <button class="article-more-btn">
-                    <a href="/">Подробнее</a>
+                    <a href="/news/{{ post.id }}">Подробнее</a>
                 </button>
                 {% if loop.index0 == 0 %}
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
@@ -122,10 +122,13 @@
           <span class="visually-hidden">Next</span>
         </button>
     </div>
+    <br>
+    {% if current_user.is_authenticated %}
+        <button class="create-post-btn">
+            <a href="/news/create">Создать</a>
+        </button>
+    {% endif %}
 </section>
-{% if current_user.is_authenticated %}
-    <a href="/news/create">Создать</a>
-{% endif %}
 <!-- Лого компаний -->
 <hr class="divider">
 <div class="logos">

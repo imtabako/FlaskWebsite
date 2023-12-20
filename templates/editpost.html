@@ -3,19 +3,34 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='posteditor.css') }}" />
+    <script src="{{ url_for('static', filename='posteditor2.js') }}"></script>
 {% endblock %}
 {% block content %}
 <div class="below-header"></div>
-<form action="/news/edit/{{ post.id }}" method="POST">
+<form action="/news/edit/{{ post.id }}" enctype="multipart/form-data" method="POST">
     <input type="hidden" name="_method" value="PUT">
-    <div>
-        <label for="title"></label>
-        <input type="text" id="title" name="title" placeholder="Заголовок" value="{{ post.title }}"required>
+    {{ form.hidden_tag() }}
+    <div class="editor-item title-editor">
+        {{ form.title.label }}
+        <br>
+        {{ form.title(value=post.title) }}
+        <div class="error-message">
+            {{ form.title.errors[0] if form.title.errors else '' }}
+        </div>
     </div>
-    <div>
-        <label for="body"></label>
-        <textarea id="body" name="body" required>{{ post.body }}</textarea>
+    <!-- <div class="editor-item">
+        {{ form.main_image(class="editor-image-picker") }}
+    </div> -->
+    <div class="editor-item body-editor">
+        {{ form.body.label }}
+        <br>
+        {{ form.body(class="mce-textarea", value=post.body) }}
+        <div class="error-message">
+            {{ form.body.errors[0] if form.body.errors else '' }}
+        </div>
     </div>
-    <input type="submit" value="Отредактировать">
+    <div class="editor-submit">
+        <input type="submit" value="Отредактировать новость">
+    </div>
 </form>
 {% endblock %}

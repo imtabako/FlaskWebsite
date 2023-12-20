@@ -121,7 +121,8 @@ section h2 {
 
 .news-section-body {
     width: 100%;
-    height: 85vh;
+    height: auto;
+    min-height: 100vh;
 }
 
 .news-section-left {
@@ -239,4 +240,19 @@ section h2 {
 .active > .carousel-item-left > hr {
     opacity: 1;
     height: 2px;
+}
+
+
+.create-post-btn {
+    box-shadow: none;
+    border-style: solid;
+    border-color: var(--textDefault);
+    padding: 10px 10px 10px 10px;
+    background-color: transparent;
+    font-size: calc(14px + ( (1vw - 4.8px) * 1.0714285714) );
+}
+
+.create-post-btn a {
+    color: var(--textDefault);
+    text-decoration: none;
 }
