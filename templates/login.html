@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Профиль{% endblock %}
+{% block title %}Авторизация{% endblock %}
 {% block head %}
 {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}" />
@@ -21,8 +21,8 @@
                 <input type="checkbox" class="input-checkbox" name="remember">
                 <label>Запомнить вход</label>
             </div>
-            <div class="div-in">
-                <button>ВОЙТИ</button>
+            <div class="div-in-login">
+                <input value="ВОЙТИ" type="submit"/>
             </div>
         </div>
     </form>

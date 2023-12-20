@@ -15,25 +15,19 @@
 }
 
 .div1 {
-    border-top: 1px  solid rgb(124, 115, 115); /* Цвет и толщина границы */
-    border-bottom: 0;
-    border-left: 1px solid rgb(124, 115, 115);
-    border-right: 1px solid rgb(124, 115, 115);
-    border-radius: 20px 20px 0 0; /* Создает круглую форму */
     width: auto;
     padding: 1em;
     min-width: 400px;
     display: flex;
-    background-color: var(--darkBlue);
+    background-color: var(--black);
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    border: none;
 }
 
 .div2 {
     width: auto;
     min-width: 400px; /* Задайте нужную ширину */
     height: auto; /* Задайте нужную высоту */
-    border: 1px solid rgb(124, 115, 115); /* Цвет и толщина границы */
-    border-radius: 0 0 20px 20px; /* Создает круглую форму */
     padding: 1em;
     justify-content: center;
     background-color: var(--white);
@@ -45,13 +39,24 @@
     height: auto; /* Задайте нужную высоту */
     display: flex;
     flex-direction: column;
-    border-bottom: 0.5px solid rgb(124, 115, 115);
     margin-top: 10px;
     min-height: 30px;
     align-items: left;
+    border-bottom: 0.5px solid rgb(123, 115, 115);
 }
 
-.div-in-last {
+.div-in input {
+    font-size: 16px;
+    font-weight: 600;
+    background-color: var(--textWhite);
+    border: none
+}
+
+.div-in input:focus {
+    outline: none;
+}
+
+.div-in-login {
     width: auto; /* Задайте нужную ширину */
     height: auto; /* Задайте нужную высоту */
     display: flex;
@@ -61,30 +66,23 @@
     align-items: left;
 }
 
-.div-in-last label {
-    color: var(--darkBlue);
-    font-size: 16px;
-    font-weight: 600;
-    margin-left: 1em;
+.div-in-login input {
+    background-color: var(--black);
+    border: none;
+    color: var(--textWhite);
+    height: 40px;
+    text-transform: uppercase;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    cursor: pointer;
 }
 
-.div-in-last p {
-    color: var(--textDefault);
-    margin-left: 1em;
-    font-size: 14px;
-    font-weight: 600;
-}
+.div-in-login input:hover {background-color: var(--grayTopButton)}
 
-.div-in label {
-    color: var(--darkBlue);
-    font-size: 16px;
-    font-weight: 600;
-    margin-left: 1em;
-}
-
-.div-in p {
-    color: var(--textDefault);
-    margin-left: 1em;
-    font-size: 14px;
-    font-weight: 600;
+.div-in-login input:active {
+  background-color: var(--grayTopButton);
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }

@@ -18,7 +18,7 @@
             <label>Наименование организации:</label>
         </div>
         <div class="div-3">
-            <input id="input_feedback" type="text" placeholder="Наименование организации">
+            <input name="name-org" type="text" placeholder="Наименование организации">
         </div>
         <div class="div-8">
             <div class="div-4">
@@ -27,7 +27,7 @@
                         <label>ИНН:</label>
                     </div>
                     <div class="div-6">
-                        <input id="input_feedback" type="text" placeholder="ИНН">
+                        <input name="inn" type="text" placeholder="ИНН"><!-- 10 цифр-->
                     </div>
                 </div>
                 <div class="div-right">
@@ -36,13 +36,14 @@
                     </div>
                     <div>
                         <p>
-                        <input id="input_feedback" type="radio" name="type-face" value="f1"> Юридическое лицо </input>
+                        <input type="radio" name="rad" value="f1" placeholder="Юридическое лицо />
                         </p>
                         <p>
-                        <input id="input_feedback" type="radio" name="type-face" value="f2"> Госучреждения </input>
+                        <input type="radio" name="rad" value="f2" />
+                        <label for="rad1">Госучреждения</label>
                         </p>
                         <p>
-                        <input id="input_feedback" type="radio" name="type-face" value="f3"> Индивидуальный предприниматель </input>
+                        <input type="radio" name="rad" value="f3" Индивидуальный предприниматель />
                         </p>
                     </div>
                 </div>
@@ -53,19 +54,19 @@
                     <label>КПП:</label>
                 </div>
                 <div class="div-6">
-                    <input id="input_feedback" type="text" placeholder="КПП">
+                    <input name="kpp" type="text" placeholder="КПП"><!-- 9 цифр-->
                 </div>
                 <div class="div-7">
                     <label>Телефон:</label>
                 </div>
                 <div class="div-6">
-                    <input id="input_feedback" type="tel" placeholder="+7(555)555-5555">
+                    <input name="tel-numb" type="tel" placeholder="+7(555)555-5555">
                 </div>
                 <div class="div-7">
                     <label>Информация:</label>
                 </div>
                 <div class="div-6">
-                    <input id="input_feedback" type="text" placeholder="Информация">
+                    <input name="info" type="text" placeholder="Информация">
                 </div>
             </div>
             <div class="div-right">
@@ -73,21 +74,21 @@
                     <label class="div-label">ФИО:</label>
                 </div>
                 <div class="div-6">
-                    <input id="input_feedback" type="text" placeholder="ФИО">
+                    <input name="full-name" type="text" placeholder="ФИО">
                 </div>
                 <div class="div-7">
                     <label>Адрес электронной почты:</label>
                 </div>
                 <div class="div-6">
-                    <input id="input_feedback" type="email" placeholder="Адрес электроной почты">
+                    <input name="email" type="email" placeholder="Адрес электроной почты">
                 </div>
                 <div class="div-7-1">
                     <label>Предпочтительный способ коммуникации:</label>
                 </div>
                 <div class="div-6">
-                    <select id="input_feedback">
-                        <option value="tel">Телефон</option>
-                        <option value="email">Электроная почта</option>
+                    <select>
+                        <option name="feedback" value="tel">Телефон</option>
+                        <option name="feedback" value="email">Электроная почта</option>
                     </select>
                 </div>
             </div>
@@ -97,16 +98,25 @@
             <label>Документы:</label>
         </div>
         <div class="div-9">
-            <input id="input_feedback" type="file" multiple name="file" class="inputfile" data-multiple-caption="{count} files selected"/>
-            <label>Загрузить файл</label>
+            <label for="fileInput">Выберите файл(ы)</label>
+            <input id="fileInput" type="file" multiple name="file" onchange="displayFileName()"/>
+            <script>
+                function displayFileName()
+                {
+                    const fileInput = document.getElementById('fileInput');
+                    const fileName = fileInput.files[0].name;
+                      alert('Выбран файл: ' + fileName);
+                }
+            </script>
         </div>
         <div class="div-10">
-            <input type="checkbox">
+            <input name="agreement" type="checkbox">
             <label>Я даю согласие на обработку моих персональных данных</label>
         </div>
         <div class="div-11">
-            <input type="submit"/>
+            <input value="ОТПРАВИТЬ" type="submit"/>
         </div>
     </div>
 </form>
 {% endblock %}
+
