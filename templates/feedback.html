@@ -5,7 +5,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='feedback.css') }}" />
 {% endblock %}
 {% block content %}
-<form>
+{% for field in form.errors %}
+{% endfor %}
+<form action="/feedback" method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
     <div class="below-header"></div>
     <div class="div-main">
         <div class="div-label-main-1">
@@ -15,106 +18,146 @@
             <label class="div-label-main-2">Выберите тип обращения</label>
         </div>
         <div class="div-2">
-            <label>Наименование организации:</label>
+            {{ form.organization.label }}
+            {% for error in form.organization.errors %}
+                <div class="alert alert-error">
+                    <strong>{{ error }}</strong>
+                </div>
+            {% endfor %}
         </div>
         <div class="div-3">
-            <input name="name-org" type="text" placeholder="Наименование организации">
+            {{ form.organization }}
         </div>
         <div class="div-8">
             <div class="div-4">
                 <div class="div-left">
-                    <div class="div-5">
-                        <label>ИНН:</label>
+                    <div class="div-5" style="display: flex;">
+                        {{ form.inn.label }}
+                        {% for error in form.inn.errors %}
+                            <div class="alert alert-error">
+                                <strong>{{ error }}</strong>
+                            </div>
+                        {% endfor %}
                     </div>
                     <div class="div-6">
-                        <input name="inn" type="text" placeholder="ИНН"><!-- 10 цифр-->
+                        {{ form.inn }}
                     </div>
                 </div>
                 <div class="div-right">
                     <div>
-                        <label class="div-5">Тип контрагента:</label>
+                        {{ form.rad.label }}
+                        <!-- <label class="div-5"></label> -->
+                        {% for error in form.rad.errors %}
+                            <div class="alert alert-error">
+                                <strong>{{ error }}</strong>
+                            </div>
+                        {% endfor %}
                     </div>
-                    <div>
-                        <p>
-                        <input type="radio" name="rad" value="f1" placeholder="Юридическое лицо />
-                        </p>
-                        <p>
-                        <input type="radio" name="rad" value="f2" />
-                        <label for="rad1">Госучреждения</label>
-                        </p>
-                        <p>
-                        <input type="radio" name="rad" value="f3" Индивидуальный предприниматель />
-                        </p>
+                    <div class="rad">
+                        {{ form.rad }}
                     </div>
                 </div>
             </div>
             <div class="div-4">
             <div class="div-left">
                 <div class="div-7">
-                    <label>КПП:</label>
+                    {{ form.kpp.label }}
+                    {% for error in form.kpp.errors %}
+                        <div class="alert alert-error">
+                            <strong>{{ error }}</strong>
+                        </div>
+                    {% endfor %}
                 </div>
                 <div class="div-6">
-                    <input name="kpp" type="text" placeholder="КПП"><!-- 9 цифр-->
+                    {{ form.kpp }}
                 </div>
                 <div class="div-7">
-                    <label>Телефон:</label>
+                    {{ form.phone.label }}
+                    {% for error in form.phone.errors %}
+                        <div class="alert alert-error">
+                            <strong>{{ error }}</strong>
+                        </div>
+                    {% endfor %}
                 </div>
                 <div class="div-6">
-                    <input name="tel-numb" type="tel" placeholder="+7(555)555-5555">
+                    {{ form.phone }}
                 </div>
                 <div class="div-7">
-                    <label>Информация:</label>
+                    {{ form.information.label }}
+                    {% for error in form.information.errors %}
+                        <div class="alert alert-error">
+                            <strong>{{ error }}</strong>
+                        </div>
+                    {% endfor %}
                 </div>
                 <div class="div-6">
-                    <input name="info" type="text" placeholder="Информация">
+                    {{ form.information }}
                 </div>
             </div>
             <div class="div-right">
                 <div class="div-7">
-                    <label class="div-label">ФИО:</label>
+                    {{ form.name.label }}
+                    {% for error in form.name.errors %}
+                        <div class="alert alert-error">
+                            <strong>{{ error }}</strong>
+                        </div>
+                    {% endfor %}
                 </div>
                 <div class="div-6">
-                    <input name="full-name" type="text" placeholder="ФИО">
+                    {{ form.name }}
                 </div>
                 <div class="div-7">
-                    <label>Адрес электронной почты:</label>
+                    {{ form.email.label }}
+                    {% for error in form.information.errors %}
+                        <div class="alert alert-error">
+                            <strong>{{ error }}</strong>
+                        </div>
+                    {% endfor %}
                 </div>
                 <div class="div-6">
-                    <input name="email" type="email" placeholder="Адрес электроной почты">
+                    {{ form.email }}
                 </div>
                 <div class="div-7-1">
-                    <label>Предпочтительный способ коммуникации:</label>
+                    {{ form.preference.label }}
+                    {% for error in form.preference.errors %}
+                        <div class="alert alert-error">
+                            <strong>{{ error }}</strong>
+                        </div>
+                    {% endfor %}
                 </div>
                 <div class="div-6">
-                    <select>
-                        <option name="feedback" value="tel">Телефон</option>
-                        <option name="feedback" value="email">Электроная почта</option>
-                    </select>
+                    {{ form.preference }}
                 </div>
             </div>
             </div>
         </div>
         <div class="div-2">
-            <label>Документы:</label>
-        </div>
-        <div class="div-9">
-            <label for="fileInput">Выберите файл(ы)</label>
-            <input id="fileInput" type="file" multiple name="file" onchange="displayFileName()"/>
-            <script>
+            <!-- <label>Документы:</label> -->
+            {{ form.docs.label }}
+            {% for error in form.docs.errors %}
+                <div class="alert alert-error">
+                    <strong>{{ error }}</strong>
+                </div>
+            {% endfor %}
+            <br>
+            {{ form.docs }}
+            <!-- <label for="fileInput">Выберите файл(ы)</label>
+            <input id="fileInput" type="file" multiple name="file" onchange="displayFileName()"/> -->
+            <!-- <script>
                 function displayFileName()
                 {
                     const fileInput = document.getElementById('fileInput');
                     const fileName = fileInput.files[0].name;
                       alert('Выбран файл: ' + fileName);
                 }
-            </script>
+            </script> -->
         </div>
         <div class="div-10">
-            <input name="agreement" type="checkbox">
-            <label>Я даю согласие на обработку моих персональных данных</label>
+            {{ form.agreement }}
+            {{ form.agreement.label }}
         </div>
         <div class="div-11">
-            <input value="ОТПРАВИТЬ" type="submit"/>
+            <input value="Отправить" type="submit"/>
         </div>
     </div>
 </form>

@@ -6,6 +6,13 @@ from flask_sqlalchemy import SQLAlchemy
 
 from werkzeug.security import generate_password_hash
 
+# IMAP_IN_PORT = 993
+# EMAIL_HOST_IN_ADDR = "imap.yandex.ru"
+# IMAP_OUT_PORT = 465
+SMTP_HOST = "smtp.yandex.ru"
+SMTP_USER = "mtpeshkin@yandex.ru"
+SMTP_PASSWORD = "djxzrdzwxibqvumw"
+
 UPLOAD_FOLDER = 'photos/'
 
 

@@ -1,12 +1,25 @@
-from flask import Blueprint, abort, flash, redirect, render_template, request, url_for, request
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import errno
+import os
+import time
+from flask import Blueprint, abort, flash, jsonify, redirect, render_template, request, url_for, request
 from flask_login import current_user, login_required
 from datetime import datetime
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
 
+import email_validator
+
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField
-from wtforms.validators import DataRequired, Length
+from flask_wtf.file import FileField, FileAllowed, FileRequired
+from flask_uploads import UploadSet, IMAGES
+from wtforms import BooleanField, MultipleFileField, RadioField, SelectField, StringField, SubmitField, TextAreaField, ValidationError
+from wtforms.validators import DataRequired, Length, Email, Regexp
+
+import imaplib
+from smtplib import SMTP_SSL, SMTP_SSL_PORT
+
 
 from . import db
 from .models import Post, User
@@ -14,10 +27,16 @@ from .models import Post, User
 
 main = Blueprint('main', __name__)
 
+
+SMTP_HOST = "smtp.yandex.ru"
+SMTP_USER = ""
+SMTP_PASSWORD = ""
+
 NEWS_TITLE_MAXLEN = 100
 
-UPLOAD_FOLDER = 'photos/'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+UPLOAD_FOLDER = 'user_uploads/'
+UPLOAD_FOLDER_FULL = '/static/user_uploads/'
+images = UploadSet('images', IMAGES)
 
 
 # WTForm for news creation/editing
@@ -26,27 +45,159 @@ class PostForm(FlaskForm):
                          validators=[DataRequired(), Length(max=NEWS_TITLE_MAXLEN)],
                          render_kw={"placeholder": "Введите заголовок"})
     body = TextAreaField('Напишите новостную статью:', validators=[DataRequired()])
+    main_image = FileField('Главное изображение', validators=[FileAllowed(images)])
 
 
-# TODO: do
-# class FeedbackForm(FlaskForm):
+# WTForm for feedback
+class FeedbackForm(FlaskForm):
+    def validate_full_name(form, field):
+        words = field.data.split()
+        if len(words) < 3:
+            raise ValidationError('Введите имя фамилию и отчество')
+
+    organization = StringField(
+        'Наименование организации:',
+        validators=[DataRequired()],
+        render_kw={"placeholder": "Наименование организации"})
+    inn = StringField(
+        'ИНН:',
+        validators=[DataRequired(), Length(min=10, max=10, message='ИНН состоит из 10 цифр'), Regexp("^\d+$")],
+        render_kw={"placeholder": "ИНН"})
+    rad = RadioField(
+        'Тип контрагента:',
+        validators=[DataRequired()],
+        choices=[('option1', 'Юридическое лицо'), ('option2', 'Госучреждения'), ('option3', 'Индивидуальный предприниматель')])
+    kpp = StringField(
+        'КПП:',
+        validators=[DataRequired(), Length(min=9, max=9, message='КПП состоит из 9 цифр'), Regexp("^\d+$")],
+        render_kw={"placeholder": "КПП"})
+    name = StringField(
+        'ФИО:',
+        validators=[DataRequired(), Regexp('^(?:[A-Za-zА-Яа-я\']+\s){2}[A-Za-zА-Яа-я\']+$')],
+        render_kw={"placeholder": "ФИО"})
+    phone = StringField(
+        'Телефон:',
+        validators=[DataRequired(), Regexp('^\+7 \(9\d{2}\) \d{3}-\d{2}\d{2}$', message='Неверный формат телефона')],
+        render_kw={"placeholder": "+7(555)555-5555"})
+    email = StringField(
+        'Адрес электронной почты:',
+        validators=[DataRequired(), Email(message='Неверный формат почты')],
+        render_kw={"placeholder": "Адрес электронной почты"})
+    preference = SelectField(
+        'Предпочтительный способ коммуникации:',
+        choices=[('tel', 'Телефон'), ('email', 'Электроная почта')],
+        validators=[DataRequired()],
+        render_kw={"placeholder": "Предпочтительный способ коммуникации"})
+    information = StringField(
+        'Информация:',
+        validators=[DataRequired()],
+        render_kw={"placeholder": "Информация"})
+    docs = MultipleFileField(
+        'Выберите файл(ы):',
+        validators=[FileRequired('Выберите хотя бы один файл'), FileAllowed([])])
+    agreement = BooleanField(
+        'Я даю согласие на обработку моих персональных данных', 
+        validators=[DataRequired()])
+    submit = SubmitField('Отправить')
 
 
+# functions for uploading images and storing them
+@main.route('/upload_image', methods=['POST'])
+def upload_image():
+    if 'image' in request.files:
+        image = request.files('image')
+        filename = secure_filename(image.filename).lower()
+        basename, image_ext = os.path.splitext(filename)
 
-# functions for uploading files
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+        current_time = int(time.time() * 1000)
+        timestr = time.strftime("%y%m%d") + current_time
+
+        filename = secure_filename(basename + "-" + timestr + image_ext)
+        img_path = os.path.join(UPLOAD_FOLDER_FULL, filename)
+
+        print(filename)
+        print(img_path)
+
+        if not os.path.exists(UPLOAD_FOLDER_FULL):
+            print('no folder')
+            try:
+                os.makedirs(UPLOAD_FOLDER_FULL)
+            except OSError as e:
+                if e.errno != errno.EEXIST:
+                    raise
+
+        image.save(img_path)
+        location = url_for('static', filename=UPLOAD_FOLDER + filename)
+        print(location)
+
+        return jsonify({'success': True, 'location': location})
+    return jsonify({'success': False, 'error': 'Не предоставлен файл'})
 
 
 @main.route('/about')
 def about_page():
+    print(images)
     return render_template('about.html')
 
 
-@main.route('/feedback')
+@main.route('/feedback', methods=['GET', 'POST'])
 def feedback():
-    return render_template('feedback.html')
+    form = FeedbackForm(meta={'locales': ['ru_RU', 'ru']})
+
+    print(request.method)
+    print(form)
+
+    print(form.organization.data)
+    print(form.inn.data)
+    print(form.rad.data)
+    print(form.kpp.data)
+    print(form.name.data)
+    print(form.phone.data)
+    print(form.email.data)
+    print(form.inn.data)
+
+
+    if form.validate_on_submit():
+        print('success')
+
+        # send email
+        from_email = SMTP_USER
+        to_emails = [SMTP_USER]
+
+        # Create text and HTML bodies for email
+        body = '\n'.join([
+            "Организация: " + form.organization.data,
+            "ИНН: " + form.inn.data,
+            "Тип контрагента: " + form.rad.data,
+            "КПП: " + form.kpp.data,
+            "ФИО: " + form.name.data,
+            "Электронная почта: " + form.email.data,
+            "Телефон: " + form.phone.data,
+            "Предпочтительный способ коммуникации: " + form.preference.data,
+            "Информация: " + form.information.data,
+        ])
+        print(body)
+
+        email_message = MIMEMultipart()
+        email_message.add_header('To', ', '.join(to_emails))
+        email_message.add_header('From', from_email)
+        email_message.add_header('Subject', 'Обратная связь')
+        email_message.add_header('X-Priority', '1')  # Urgent/High priority
+        text_part = MIMEText(body, 'plain')
+        # email_message.set_content(body)
+
+        email_message.attach(text_part)
+
+
+        # connect, authenticate, and send mail
+        smtp_server = SMTP_SSL(SMTP_HOST, port=SMTP_SSL_PORT)
+        smtp_server.set_debuglevel(1)  # Show SMTP server interactions
+        smtp_server.login(SMTP_USER, SMTP_PASSWORD)
+        smtp_server.sendmail(from_email, to_emails, email_message.as_bytes())
+        # disconnect
+        smtp_server.quit()
+
+    return render_template('feedback.html', form=form)
 
 
 # News funtionality
@@ -77,13 +228,17 @@ def create_post():
     form = PostForm()
 
     if form.validate_on_submit():
-        print('success')
-    
-        print(form.title)
-        print(form.body)
+        new_post = Post(author_username=current_user.username, editor_username=current_user.username, title=form.title.data, body=form.body.data)
 
-        return redirect(url_for('main.show_post', id=1))
+        print(new_post)
+        # add new post to database
+        db.session.add(new_post)
+        db.session.commit()
+        print('added, commited')
 
+        return redirect(url_for('main.show_post', id=new_post.id))
+
+    print('not validated')
     return render_template('createpost.html', form=form)
 
 

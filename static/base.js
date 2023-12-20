@@ -1,17 +1,3 @@
-tinymce.init({
-    selector: '#body',
-    plugins: [
-        'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
-        'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
-        'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
-
-    ],
-
-    toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
-        'alignleft aligncenter alignright alignjustify | ' +
-        'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help'
-});
-
 let topButton = document.getElementById("top-btn");
 let header = document.getElementById("header");
 let content = document.getElementById("content");

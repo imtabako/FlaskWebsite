@@ -200,3 +200,22 @@
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
+
+
+#rad {
+    padding-left: 0;
+}
+
+#rad li {
+    list-style-type: none;
+}
+
+.alert {
+    color: var(--red);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    line-height: 1.2;
+    text-align: center;
+    margin: 0;
+}
