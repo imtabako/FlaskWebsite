@@ -54,3 +54,7 @@
 
 .mce-textarea {
 }
+
+.error-message {
+    color: var(--red);
+}

@@ -24,6 +24,9 @@ body {
     line-height: 1.5;
     font-weight: 400;
     color: var(--textDefault);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
 }
 
@@ -132,8 +135,9 @@ body {
 }
 
 #content-wrapper {
-    height: 100%;
-    width: 100%;
+    flex: 1;
+    /* height: 100%; */
+    /* width: 100%; */
     background-color: var(--lightGray);
 }
 

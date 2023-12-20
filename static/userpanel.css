@@ -1,0 +1,140 @@
+.div-main {
+    display: flex;
+    flex-direction: column;
+    overflow-x: scroll;
+    width: 100%;
+    justify-content: center;
+    /* max-width: 1135px; */
+    /* margin-left: 10%; */
+}
+
+.div-main ul {
+    padding-left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    /* max-width: 1135px; */
+}
+
+.div-li {
+    display: flex;
+    flex-direction: row;
+    /* max-width: 1135px; */
+}
+
+.div-li form {
+    display: flex;
+    flex-direction: row;
+    width:auto;
+    /* max-width: 1135px; */
+
+}
+
+li {
+    list-style-type: none;
+}
+
+.div-in {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 0.5px solid rgb(124, 115, 115);
+    margin-top: 10px;
+    min-height: 30px;
+    align-items: center;
+    justify-content: left;
+    border-right: 0.5px solid rgb(123, 115, 115);
+}
+
+.div-in label {
+    color: var(--darkBlue);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.div-in input {
+    color: var(--textDefault);
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    background-color: var(--lightGray);
+    text-align: center;
+}
+
+.div-in input:focus {
+    outline: none;
+}
+
+.div-in-last {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 0.5px solid rgb(124, 115, 115);
+    margin-top: 10px;
+    min-height: 30px;
+    align-items: center;
+    justify-content: left;
+}
+
+.div-in-last label {
+    color: var(--darkBlue);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.div-in-last input {
+    color: var(--textDefault);
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    background-color: var(--lightGray);
+    text-align: center;
+}
+
+.div-in-last input:focus {
+    outline: none;
+}
+
+.div-button-edit {
+    margin-left: 2em;
+    margin-top: 1em;
+    width: 100%;
+    background-color: var(--black);
+    color: var(--textWhite);
+    border: none;
+}
+
+.div-button-del {
+    margin-left: 2em;
+    margin-top: 1em;
+    width: 100%;
+    background-color: var(--red);
+    color: var(--textWhite);
+    border: none;
+}
+
+.div-button-add {
+    margin-left: 2em;
+    /* margin-top: 1em; */
+    background-color: var(--black);
+    color: var(--textWhite);
+    border: none;
+    height: 40px;
+}
+.div-new-user {
+    padding-top: 1em;
+    margin-bottom: 1em;
+    display: flex;
+    flex-direction: row;
+    /* max-width: 1135px; */
+}
+
+.div-new-user form {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    justify-content: center;
+
+
+}

@@ -1,70 +1,79 @@
 {% extends "base.html" %}
-
+{% block title %}Редактирование пользователей{% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='userpanel.css') }}" />
+{% endblock %}
 {% block content %}
-<ul>
-    {% for user in users %}
-        <li>
-            <form method="POST" action="/users/edit/{{ user.id }}">
-                <input type="hidden" name="_method" value="PUT">
-                <div>
-                    <label for="edit-username">Логин</label>
-                    <input type="text" id="edit-username" name="username" placeholder="Логин" value="{{ user.username }}" required>
+<div class="below-header"></div>
+<div class="div-main">
+    <ul>
+        {% for user in users %}
+            <li class="user-item">
+                <div class="div-li">
+                    <form method="POST" action="/users/edit/{{ user.id }}">
+                        <input type="hidden" name="_method" value="PUT">
+                        <div class="div-in">
+                            <label for="edit-username">Логин</label>
+                            <input type="text" id="edit-username" name="username" placeholder="Логин" value="{{ user.username }}" required>
+                        </div>
+                        <div class="div-in">
+                            <label for="edit-password">Пароль</label>
+                            <input type="password" id="edit-password" name="password" placeholder="Пароль">
+                        </div>
+                        <div class="div-in">
+                            <label for="edit-name">Имя</label>
+                            <input type="text" id="edit-name" name="name" placeholder="Имя" value="{{ user.name }}" required>
+                        </div>
+                        <div class="div-in">
+                            <label for="edit-lastname">Фамилия</label>
+                            <input type="text" id="edit-lastname" name="lastname" placeholder="Фамилия" value="{{ user.lastname }}" required>
+                        </div>
+                        <div class="div-in-last">
+                            <label for="edit-position">Должность</label>
+                            <input type="text" id="edit-position" name="position" placeholder="Должность" value="{{ user.position }}">
+                        </div>
+                        <button class="div-button-edit button is-block is-info is-large is-fullwidth">Редактировать</button>
+                    </form>
+                    <form method="POST" action="/users/delete/{{ user.id }}" onsubmit="return confirm('Вы уверены, что хотите удалить пользователя {{ user.username }}?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input class="div-button-del" type="submit" value="Удалить">
+                    </form>
                 </div>
-                <div>
-                    <label for="edit-password">Пароль</label>
-                    <input type="password" id="edit-password" name="password" placeholder="Пароль">
-                </div>
-                <div>
-                    <label for="edit-name">Имя</label>
-                    <input type="text" id="edit-name" name="name" placeholder="Имя" value="{{ user.name }}" required>
-                </div>
-                <div>
-                    <label for="edit-lastname">Фамилия</label>
-                    <input type="text" id="edit-lastname" name="lastname" placeholder="Фамилия" value="{{ user.lastname }}" required>
-                </div>
-                {% if user.position %}
-                    <div>
-                        <label for="edit-position">Должность</label>
-                        <input type="text" id="edit-position" name="position" placeholder="Должность" value="{{ user.position }}">
+            </li>
+        {% endfor %}
+        <li class="user-item">
+            <div class="div-new-user">
+                <form method="POST" action="/users/create">
+                    <div class="field">
+                        <div class="control div-in">
+                            <input class="input is-large" type="text" name="username" required placeholder="Логин" autofocus="">
+                        </div>
                     </div>
-                {% endif %}
-                <button class="button is-block is-info is-large is-fullwidth">Редактировать</button>
-            </form>
+                    <div class="field">
+                        <div class="control div-in">
+                            <input class="input is-large" type="password" name="password" required placeholder="Пароль">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control div-in">
+                            <input class="input is-large" type="text" name="name" required placeholder="Имя" autofocus="">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control div-in">
+                            <input class="input is-large" type="text" name="lastname" required placeholder="Фамилия" autofocus="">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control div-in-last">
+                            <input class="input is-large" type="text" name="position" placeholder="Должность" autofocus="">
+                        </div>
+                    </div>
+                    <button class="div-button-add button is-block is-info is-large is-fullwidth">Добавить пользователя</button>
+                </form>
+            </div>
         </li>
-        <form method="POST" action="/users/delete/{{ user.id }}" onsubmit="return confirm('Вы уверены, что хотите удалить пользователя {{ user.username }}?');">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="submit" value="Удалить">
-        </form>
-    {% endfor %}
-</ul>
-<hr>
-<h2>Добавить пользователя</h2>
-<form method="POST" action="/users/create">
-    <div class="field">
-        <div class="control">
-            <input class="input is-large" type="text" name="username" required placeholder="Логин" autofocus="">
-        </div>
-    </div>
-    <div class="field">
-        <div class="control">
-            <input class="input is-large" type="password" name="password" required placeholder="Пароль">
-        </div>
-    </div>
-    <div class="field">
-        <div class="control">
-            <input class="input is-large" type="text" name="name" required placeholder="Имя" autofocus="">
-        </div>
-    </div>
-    <div class="field">
-        <div class="control">
-            <input class="input is-large" type="text" name="lastname" required placeholder="Фамилия" autofocus="">
-        </div>
-    </div>
-    <div class="field">
-        <div class="control">
-            <input class="input is-large" type="text" name="position" placeholder="Должность" autofocus="">
-        </div>
-    </div>
-    <button class="button is-block is-info is-large is-fullwidth">Добавить пользователя</button>
-</form>
+    </ul>
+</div>
 {% endblock %}

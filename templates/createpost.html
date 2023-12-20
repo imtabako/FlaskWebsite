@@ -8,17 +8,29 @@
 <div class="below-header"></div>
 <form action="/news/create" enctype="multipart/form-data" method="POST">
     <div class="editor-item title-editor">
-        <label for="title">Заголовок новости:</label>
+        {{ form.title.label }}
         <br>
-        <input type="text" id="title" name="title" placeholder="Заголовок" required>
+        {{ form.title }}
+        <div class="error-message">
+            {{ form.title.errors[0] if form.title.errors else '' }}
+        </div>
+        <!-- <label for="title">Заголовок новости:</label> -->
+        <!-- <br> -->
+        <!-- <input type="text" id="title" name="title" placeholder="Заголовок" required> -->
     </div>
     <!-- <div class="editor-item image-editor">
         <input type="file">
     </div> -->
     <div class="editor-item body-editor">
-        <label for="body">Напишите новостную статью:</label>
+        {{ form.body.label }}
         <br>
-        <textarea id="body" class="mce-textarea" name="body" required></textarea>
+        {{ form.body(class="mce-textarea") }}
+        <div class="error-message">
+            {{ form.body.errors[0] if form.body.errors else '' }}
+        </div>
+        <!-- <label for="body">Напишите новостную статью:</label> -->
+        <!-- <br> -->
+        <!-- <textarea id="body" class="mce-textarea" name="body" required></textarea> -->
     </div>
     <div>
         <input type="file" name="main-img">

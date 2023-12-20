@@ -4,14 +4,34 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash
 from werkzeug.utils import secure_filename
 
+from flask_wtf import FlaskForm
+from wtforms import StringField, TextAreaField
+from wtforms.validators import DataRequired, Length
+
 from . import db
 from .models import Post, User
 
 
 main = Blueprint('main', __name__)
 
+NEWS_TITLE_MAXLEN = 100
+
 UPLOAD_FOLDER = 'photos/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+
+# WTForm for news creation/editing
+class PostForm(FlaskForm):
+    title = StringField('Заголовок новости:',
+                         validators=[DataRequired(), Length(max=NEWS_TITLE_MAXLEN)],
+                         render_kw={"placeholder": "Введите заголовок"})
+    body = TextAreaField('Напишите новостную статью:', validators=[DataRequired()])
+
+
+# TODO: do
+# class FeedbackForm(FlaskForm):
+
+
 
 # functions for uploading files
 def allowed_file(filename):
@@ -51,16 +71,26 @@ def show_post(id):
 
 
 # Show new news item editor, GET
-@main.route('/news/create')
+@main.route('/news/create', methods=['GET', 'POST'])
 @login_required
-def editor_post():
-    return render_template('createpost.html')
+def create_post():
+    form = PostForm()
+
+    if form.validate_on_submit():
+        print('success')
+    
+        print(form.title)
+        print(form.body)
+
+        return redirect(url_for('main.show_post', id=1))
+
+    return render_template('createpost.html', form=form)
 
 
 # Create new news item, POST
-@main.route('/news/create', methods=['POST'])
+@main.route('/news/create2', methods=['POST'])
 @login_required
-def create_post():
+def create_post2():
     title = request.form.get('title')
     body = request.form.get('body')
 
