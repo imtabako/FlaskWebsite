@@ -17,7 +17,6 @@ from flask_uploads import UploadSet, IMAGES
 from wtforms import BooleanField, MultipleFileField, RadioField, SelectField, StringField, SubmitField, TextAreaField, ValidationError
 from wtforms.validators import DataRequired, Length, Email, Regexp
 
-import imaplib
 from smtplib import SMTP_SSL, SMTP_SSL_PORT
 
 
@@ -122,24 +121,24 @@ def test_tinymce():
         flash('Form submitted successfully', 'success')
         title = form.title.data
         body = form.body.data
-        print(title)
-        print(body)
+        # print(title)
+        # print(body)
 
         if len(body) == 0:
             flash('Новость не может быть пуста', 'error')
             return render_template('test_editor.html', form=form)
         return redirect(url_for('main.index'))
     
-    print('not validated')
-    print(form)
+    # print('not validated')
+    # print(form)
     return render_template('test_editor.html', form=form)
 
 
 # functions for uploading images and storing them
 @main.route('/upload_image', methods=['POST'])
 def upload_image():
-    print('got here')
-    print(request.files)
+    # print('got here')
+    # print(request.files)
     if 'file' in request.files:
         image = request.files.get('file')
         filename = secure_filename(image.filename).lower()
@@ -151,12 +150,12 @@ def upload_image():
         filename = secure_filename(basename + "-" + timestr + image_ext)
         img_path = os.path.join(UPLOAD_FOLDER_FULL, filename)
 
-        print(os.getcwd())
-        print(filename)
-        print(img_path)
+        # print(os.getcwd())
+        # print(filename)
+        # print(img_path)
 
         if not os.path.exists(UPLOAD_FOLDER_FULL):
-            print('no folder')
+            # print('no folder')
             try:
                 os.makedirs(UPLOAD_FOLDER_FULL)
             except OSError as e:
@@ -165,7 +164,7 @@ def upload_image():
 
         image.save(img_path)
         location = url_for('static', filename=UPLOAD_FOLDER + filename)
-        print(location)
+        # print(location)
 
         return jsonify({'success': True, 'location': location})
     return jsonify({'success': False, 'error': 'Не предоставлен файл'})
@@ -173,7 +172,7 @@ def upload_image():
 
 @main.route('/about')
 def about_page():
-    print(images)
+    # print(images)
     return render_template('about.html')
 
 
@@ -181,21 +180,21 @@ def about_page():
 def feedback():
     form = FeedbackForm(meta={'locales': ['ru_RU', 'ru']})
 
-    print(request.method)
-    print(form)
+    # print(request.method)
+    # print(form)
 
-    print(form.organization.data)
-    print(form.inn.data)
-    print(form.rad.data)
-    print(form.kpp.data)
-    print(form.name.data)
-    print(form.phone.data)
-    print(form.email.data)
-    print(form.inn.data)
+    # print(form.organization.data)
+    # print(form.inn.data)
+    # print(form.rad.data)
+    # print(form.kpp.data)
+    # print(form.name.data)
+    # print(form.phone.data)
+    # print(form.email.data)
+    # print(form.inn.data)
 
 
     if form.validate_on_submit():
-        print('success')
+        # print('success')
 
         # send email
         from_email = SMTP_USER
@@ -213,7 +212,7 @@ def feedback():
             "Предпочтительный способ коммуникации: " + form.preference.data,
             "Информация: " + form.information.data,
         ])
-        print(body)
+        # print(body)
 
         email_message = MIMEMultipart()
         email_message.add_header('To', ', '.join(to_emails))
@@ -270,15 +269,15 @@ def create_post():
     form = PostForm()
 
     if form.validate_on_submit():
-        print('Form submitted successfully')
+        # print('Form submitted successfully')
         title = form.title.data
         body = form.body.data
-        print(title)
-        print([body, len(body)])
+        # print(title)
+        # print([body, len(body)])
 
         if len(body) == 0:
-            print('empty body')
-            flash('Новость не может быть пустой', 'warning')
+            # print('empty body')
+            # flash('Новость не может быть пустой', 'warning')
             return render_template('createpost.html', form=form)
 
         current_time = datetime.now()
@@ -287,15 +286,15 @@ def create_post():
             created=current_time, edited=current_time,
             title=form.title.data, body=form.body.data)
 
-        print(new_post)
+        # print(new_post)
         # add new post to database
         db.session.add(new_post)
         db.session.commit()
-        print('added, commited')
+        # print('added, commited')
 
         return redirect(url_for('main.show_post', id=new_post.id))
 
-    print('not validated')
+    # print('not validated')
     return render_template('createpost.html', form=form)
 
 
@@ -338,8 +337,8 @@ def edit_post(id):
         editor = current_user.username
         edited = datetime.now()
 
-        print('editing post')
-        print(post)
+        # print('editing post')
+        # print(post)
     
         post.title = title
         post.body = body
@@ -347,7 +346,7 @@ def edit_post(id):
         post.edited = edited
 
         db.session.commit()
-        print('success')
+        # print('success')
         return redirect(url_for('main.index'))
     return render_template('editpost.html', post=post, form=form)
 
@@ -361,11 +360,11 @@ def delete_post(id):
         return render_template('index.html')
     
     post = Post.query.get(id)
-    print(post)
+    # print(post)
 
     if post is None:
         error = 'No such post'
-        flash(error)
+        # flash(error)
     else:
         db.session.delete(post)
         db.session.commit()
@@ -385,7 +384,7 @@ def profile():
 @main.route('/user/<username>')
 def show_profile(username):
     user = User.query.filter_by(username=username).first()
-    print(user)
+    # print(user)
     if user:
         return render_template('profile.html', user=user)
 
@@ -402,7 +401,7 @@ def list_users():
         return render_template('index.html')
     
     users = User.query.order_by(User.username).all()
-    print(users)
+    # print(users)
     
     return render_template('userspanel.html', users=users)
 
@@ -432,30 +431,30 @@ def create_user():
     elif not lastname:
         error = 'Необходима фамилия '
 
-    print(username)
-    print(password)
-    print(name)
-    print(lastname)
-    print(position)
+    # print(username)
+    # print(password)
+    # print(name)
+    # print(lastname)
+    # print(position)
 
     if error is None:
-        print(error)
+        # print(error)
         user = User.query.filter_by(username=username).first()
-        print(user)
-        print('got here')
+        # print(user)
+        # print('got here')
         if user:
             error = 'Пользователь с таким логином уже существует'
-            print(error)
-            flash(error)
+            # print(error)
+            # flash(error)
             return redirect(url_for('main.list_users'))
         
         new_user = User(username=username, password=generate_password_hash(password), name=name, lastname=lastname, position=position)
         # add new user to database
         db.session.add(new_user)
         db.session.commit()
-        print('added, commited')
+        # print('added, commited')
 
-    flash(error)
+    # flash(error)
 
     return redirect(url_for('main.list_users'))
   
@@ -466,7 +465,7 @@ def create_user():
 def edit_user(id):
     if current_user.id != 1:
         error = 'Недостаточно прав'
-        flash(error)
+        # flash(error)
         abort(401)
         return render_template('index.html')
 
@@ -477,12 +476,12 @@ def edit_user(id):
     position = request.form.get('position')
 
     user = User.query.get(id)
-    print('editing')
-    print(user)
+    # print('editing')
+    # print(user)
 
     if user is None:
         error = 'No such user'
-        flash(error)
+        # flash(error)
         return redirect(url_for('main.list_users'))
     
     user.username = username
@@ -493,7 +492,7 @@ def edit_user(id):
     user.position = position
 
     db.session.commit()
-    print('success')
+    # print('success')
 
     return redirect(url_for('main.list_users'))
 
@@ -502,17 +501,17 @@ def edit_user(id):
 @main.route('/users/delete/<int:id>', methods=['POST', 'DELETE'])
 @login_required
 def delete_user(id):
-    print('deleting ', id)
+    # print('deleting ', id)
     if current_user.id != 1:
         error = 'Недостаточно прав'
         return render_template('index.html')
     
     user = User.query.get(id)
-    print(user)
+    # print(user)
 
     if user is None:
         error = 'No such user'
-        flash(error)
+        # flash(error)
         return redirect(url_for('main.list_users'))
     
     db.session.delete(user)

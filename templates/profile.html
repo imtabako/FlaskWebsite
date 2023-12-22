@@ -32,12 +32,12 @@
                     <a href="/news">Список новостей</a>
                 </button>
                 {% if current_user.id == 1 %}
-                <button class="list-button">
-                    <a href="/users">Список пользователей</a>
-                </button>
+                    <button class="list-button">
+                        <a href="/users">Список пользователей</a>
+                    </button>
+                {% endif %}
             </div>
         </div>
     </div>
-    {% endif %}
 {% endif %}
 {% endblock %}
