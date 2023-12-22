@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
-{% block title %}Главная{% endblock %}
+{% block title %}Создать новость{% endblock %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='posteditor.css') }}" />
-    <script src="{{ url_for('static', filename='posteditor.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='post_create.css') }}" />
+    <script src="{{ url_for('static', filename='post_create.js') }}"></script>
 {% endblock %}
 {% block content %}
 <div class="below-header"></div>
-<form action="/news/create" enctype="multipart/form-data" method="POST">
-    {{ form.hidden_tag() }}
+{% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+         {{ message }}
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+<form id="post-form" name="theForm" action="/news/create" enctype="multipart/form-data" method="POST">
+    {{ form.csrf_token }}
     <div class="editor-item title-editor">
         {{ form.title.label }}
         <br>
@@ -17,9 +24,6 @@
             {{ form.title.errors[0] if form.title.errors else '' }}
         </div>
     </div>
-    <!-- <div class="editor-item">
-        {{ form.main_image(class="editor-image-picker") }}
-    </div> -->
     <div class="editor-item body-editor">
         {{ form.body.label }}
         <br>
@@ -29,7 +33,12 @@
         </div>
     </div>
     <div class="editor-submit">
-        <input type="submit" value="Опубликовать новость">
+        {{ form.submitBtn(class='create-post-btn') }}
     </div>
 </form>
+{% for field, error in form.errors.items() %}
+    <div class="alert alert-error">
+        {{ form[field].label }}: {{ ', '.join(errors) }}
+    </div>
+{% endfor %}
 {% endblock %}

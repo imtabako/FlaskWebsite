@@ -49,27 +49,16 @@
             {% if current_user.is_authenticated %}
             <li class="navbar-item">
                 <a href="{{ url_for('main.profile') }}">
-                    Профиль
+                    Профиль пользователя {{ current_user.name }} {{ current_user.lastname }}
                 </a>
             </li>
             {% endif %}
         </ul>
         <div style="display: flex; flex-direction: row; justify-items: space-between;">
-            {% if current_user.is_authenticated and current_user.id == 1 %}
-            <li class="navbar-item">
-                <a href="{{ url_for('main.list_users') }}">
-                    Панель администратора
-                </a>
-            </li>
-            {% endif %}
-            <!-- Логин / Логоут -->
+            <!-- Логоут -->
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('auth.logout') }}" class="navbar-login">
                     Выйти
-                </a>
-            {% else %}
-                <a href="{{ url_for('auth.login') }}" class="navbar-login">
-                    Войти
                 </a>
             {% endif %}
         </div>

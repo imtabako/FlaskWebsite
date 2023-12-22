@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Список новостей{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='newslist.css') }}" />
+{% endblock %}
+{% block content %}
+<div class="below-header"></div>
+<ul class="posts">
+    {% for post in posts %}
+        <li class="news-post-li">
+            <div class="li-row">
+                <div class="news-post">
+                    <a href="/news/{{ post.id }}">
+                        <button class="post-item">
+                            <div class="post-row">
+                                <p class="post-title smaller">№{{ post.id }}</p>
+                                <p class="post-title">{{ post.title }}</p>
+                                <p></p>
+                            </div>
+                            <div class="name-date">
+                                <p>Автор {{ post.author_username }}, {{ post.created.strftime('%d.%m.%Y %H:%M') }}</p>
+                                {% if post.created != post.edited %}
+                                    <p>Редактировал {{ post.editor_username }}, {{ post.edited.strftime('%d.%m.%Y %H:%M') }}</p>
+                                {% endif %}
+                            </div>
+                        </button>
+                    </a>
+                </div>
+                <div class="buttons">
+                    <div class="edit-button">
+                        <form action="/news/edit/{{ post.id }}" method="get">
+                            <input type="submit" value="Изменить"/>
+                        </form>
+                    </div>
+                    <div class="del-button">
+                        <form action="/news/delete/{{ post.id }}" method="post">
+                            <input type="submit" value="Удалить"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -24,18 +24,15 @@ from smtplib import SMTP_SSL, SMTP_SSL_PORT
 from . import db
 from .models import Post, User
 
+from website import SMTP_HOST, SMTP_USER, SMTP_PASSWORD
+
 
 main = Blueprint('main', __name__)
-
-
-SMTP_HOST = "smtp.yandex.ru"
-SMTP_USER = ""
-SMTP_PASSWORD = ""
 
 NEWS_TITLE_MAXLEN = 100
 
 UPLOAD_FOLDER = 'user_uploads/'
-UPLOAD_FOLDER_FULL = '/static/user_uploads/'
+UPLOAD_FOLDER_FULL = './website/static/user_uploads/'
 images = UploadSet('images', IMAGES)
 
 
@@ -44,8 +41,8 @@ class PostForm(FlaskForm):
     title = StringField('Заголовок новости:',
                          validators=[DataRequired(), Length(max=NEWS_TITLE_MAXLEN)],
                          render_kw={"placeholder": "Введите заголовок"})
-    body = TextAreaField('Напишите новостную статью:', validators=[DataRequired()])
-    main_image = FileField('Главное изображение', validators=[FileAllowed(images)])
+    body = TextAreaField('Напишите новостную статью:')
+    submitBtn = SubmitField('Завершить')
 
 
 # WTForm for feedback
@@ -62,7 +59,12 @@ class FeedbackForm(FlaskForm):
     inn = StringField(
         'ИНН:',
         validators=[DataRequired(), Length(min=10, max=10, message='ИНН состоит из 10 цифр'), Regexp("^\d+$")],
-        render_kw={"placeholder": "ИНН"})
+        render_kw={
+            "placeholder": "ИНН",
+            "inputmode": "numeric",
+            "pattern": "[0-9]{10}",
+            "maxlength": "10",
+            })
     rad = RadioField(
         'Тип контрагента:',
         validators=[DataRequired()],
@@ -70,15 +72,20 @@ class FeedbackForm(FlaskForm):
     kpp = StringField(
         'КПП:',
         validators=[DataRequired(), Length(min=9, max=9, message='КПП состоит из 9 цифр'), Regexp("^\d+$")],
-        render_kw={"placeholder": "КПП"})
+        render_kw={
+            "placeholder": "КПП",
+            "inputmode": "numeric",
+            "pattern": "[0-9]{9}",
+            "maxlength": "9"
+            })
     name = StringField(
         'ФИО:',
         validators=[DataRequired(), Regexp('^(?:[A-Za-zА-Яа-я\']+\s){2}[A-Za-zА-Яа-я\']+$')],
         render_kw={"placeholder": "ФИО"})
     phone = StringField(
         'Телефон:',
-        validators=[DataRequired(), Regexp('^\+7 \(9\d{2}\) \d{3}-\d{2}\d{2}$', message='Неверный формат телефона')],
-        render_kw={"placeholder": "+7(555)555-5555"})
+        validators=[DataRequired(), Regexp('^\+7 \(\d{3}\) \d{3}-\d{4}$', message='Неверный формат телефона')],
+        render_kw={"placeholder": "+7 (555) 555-5555"})
     email = StringField(
         'Адрес электронной почты:',
         validators=[DataRequired(), Email(message='Неверный формат почты')],
@@ -92,29 +99,59 @@ class FeedbackForm(FlaskForm):
         'Информация:',
         validators=[DataRequired()],
         render_kw={"placeholder": "Информация"})
-    docs = MultipleFileField(
-        'Выберите файл(ы):',
-        validators=[FileRequired('Выберите хотя бы один файл'), FileAllowed([])])
+    # docs = MultipleFileField(
+    #     'Выберите файл(ы):',
+    #     validators=[FileRequired('Выберите хотя бы один файл'), FileAllowed(['jpg', 'jpeg', 'png', 'docs', 'pdf'], 'Только изображения, PDF-файлы и Word-файлы')])
+    docs = MultipleFileField('Выберите файл(ы):')
     agreement = BooleanField(
         'Я даю согласие на обработку моих персональных данных', 
         validators=[DataRequired()])
     submit = SubmitField('Отправить')
 
 
+@main.route('/success')
+def success():
+    return render_template('success.html')
+
+
+@main.route('/test', methods=['GET', 'POST'])
+@login_required
+def test_tinymce():
+    form = PostForm()
+    if form.validate_on_submit():
+        flash('Form submitted successfully', 'success')
+        title = form.title.data
+        body = form.body.data
+        print(title)
+        print(body)
+
+        if len(body) == 0:
+            flash('Новость не может быть пуста', 'error')
+            return render_template('test_editor.html', form=form)
+        return redirect(url_for('main.index'))
+    
+    print('not validated')
+    print(form)
+    return render_template('test_editor.html', form=form)
+
+
 # functions for uploading images and storing them
 @main.route('/upload_image', methods=['POST'])
 def upload_image():
-    if 'image' in request.files:
-        image = request.files('image')
+    print('got here')
+    print(request.files)
+    if 'file' in request.files:
+        image = request.files.get('file')
         filename = secure_filename(image.filename).lower()
         basename, image_ext = os.path.splitext(filename)
 
-        current_time = int(time.time() * 1000)
+        current_time = str(int(time.time() * 1000))
         timestr = time.strftime("%y%m%d") + current_time
 
         filename = secure_filename(basename + "-" + timestr + image_ext)
         img_path = os.path.join(UPLOAD_FOLDER_FULL, filename)
 
+        print(os.getcwd())
         print(filename)
         print(img_path)
 
@@ -188,7 +225,6 @@ def feedback():
 
         email_message.attach(text_part)
 
-
         # connect, authenticate, and send mail
         smtp_server = SMTP_SSL(SMTP_HOST, port=SMTP_SSL_PORT)
         smtp_server.set_debuglevel(1)  # Show SMTP server interactions
@@ -206,6 +242,12 @@ def feedback():
 def index():
     posts = Post.query.order_by(Post.edited.desc()).limit(3)
     return render_template('index.html', posts=posts, post=posts[0])
+
+
+@main.route('/news')
+def list_news():
+    posts = Post.query.order_by(Post.edited.desc())
+    return render_template('newslist.html', posts=posts)
 
 
 # Single news item
@@ -228,7 +270,22 @@ def create_post():
     form = PostForm()
 
     if form.validate_on_submit():
-        new_post = Post(author_username=current_user.username, editor_username=current_user.username, title=form.title.data, body=form.body.data)
+        print('Form submitted successfully')
+        title = form.title.data
+        body = form.body.data
+        print(title)
+        print([body, len(body)])
+
+        if len(body) == 0:
+            print('empty body')
+            flash('Новость не может быть пустой', 'warning')
+            return render_template('createpost.html', form=form)
+
+        current_time = datetime.now()
+        new_post = Post(
+            author_username=current_user.username, editor_username=current_user.username, 
+            created=current_time, edited=current_time,
+            title=form.title.data, body=form.body.data)
 
         print(new_post)
         # add new post to database
@@ -252,10 +309,10 @@ def edit_post_show(id):
     if post is None:
         error = 'Новость не найдена'
         return render_template('post.html', error=error)
-    title = post.title
-    body = post.body
-    editor = current_user.username
-    edited = datetime.now()
+    # title = post.title
+    # body = post.body
+    # editor = current_user.username
+    # edited = datetime.now()
 
     return render_template('editpost.html', post=post, form=form)
 
@@ -298,14 +355,13 @@ def edit_post(id):
 # Delete news item
 @main.route('/news/delete/<int:id>', methods=['POST', 'DELETE'])
 @login_required
-def delete_post():
+def delete_post(id):
     if current_user.id != 1:
         error = 'Недостаточно прав'
         return render_template('index.html')
     
     post = Post.query.get(id)
     print(post)
-
 
     if post is None:
         error = 'No such post'

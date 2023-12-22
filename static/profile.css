@@ -83,3 +83,39 @@
     font-size: 14px;
     font-weight: 600;
 }
+
+.buttons-bottom {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-button {
+    font-weight: bold;
+    background-color: var(--black);
+    border: none;
+    height: 40px;
+    text-transform: uppercase;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+    cursor: pointer;
+    margin: 0 0 10px 0;
+}
+
+.list-button:hover {background-color: var(--grayTopButton)}
+
+.list-button:active {
+  background-color: var(--grayTopButton);
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.list-button a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px 10px 10px;
+    color: var(--textWhite);
+    text-decoration: none;
+}

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Обратная связь{% endblock %}
 {% block head %}
-{{ super() }}
+    {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='feedback.css') }}" />
 {% endblock %}
 {% block content %}
@@ -141,6 +141,7 @@
             {% endfor %}
             <br>
             {{ form.docs }}
+            <div id="files-attached"></div>
             <!-- <label for="fileInput">Выберите файл(ы)</label>
             <input id="fileInput" type="file" multiple name="file" onchange="displayFileName()"/> -->
             <!-- <script>
@@ -161,5 +162,6 @@
         </div>
     </div>
 </form>
+<script src="{{ url_for('static', filename='feedback.js') }}"></script>
 {% endblock %}
 

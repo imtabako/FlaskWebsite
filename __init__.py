@@ -1,4 +1,4 @@
-import os
+import configparser
 
 from flask import Flask
 from flask_login import LoginManager
@@ -6,14 +6,16 @@ from flask_sqlalchemy import SQLAlchemy
 
 from werkzeug.security import generate_password_hash
 
-# IMAP_IN_PORT = 993
-# EMAIL_HOST_IN_ADDR = "imap.yandex.ru"
-# IMAP_OUT_PORT = 465
-SMTP_HOST = "smtp.yandex.ru"
-SMTP_USER = "mtpeshkin@yandex.ru"
-SMTP_PASSWORD = "djxzrdzwxibqvumw"
 
-UPLOAD_FOLDER = 'photos/'
+# config.ini для обратной связи
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+SMTP_HOST = config.get('smtp', 'host')
+SMTP_USER = config.get('smtp', 'user')
+SMTP_PASSWORD = config.get('smtp', 'password')
+
+UPLOAD_FOLDER = 'user_uploads/'
 
 
 # init SQLAlchemy so we can use it later in our models
