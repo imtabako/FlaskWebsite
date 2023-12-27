@@ -1,8 +1,12 @@
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import errno
 import os
 import time
+from email.utils import formatdate
+
 from flask import Blueprint, abort, flash, jsonify, redirect, render_template, request, url_for, request
 from flask_login import current_user, login_required
 from datetime import datetime
@@ -79,7 +83,7 @@ class FeedbackForm(FlaskForm):
             })
     name = StringField(
         'ФИО:',
-        validators=[DataRequired(), Regexp('^(?:[A-Za-zА-Яа-я\']+\s){2}[A-Za-zА-Яа-я\']+$')],
+        validators=[DataRequired()],
         render_kw={"placeholder": "ФИО"})
     phone = StringField(
         'Телефон:',
@@ -98,9 +102,6 @@ class FeedbackForm(FlaskForm):
         'Информация:',
         validators=[DataRequired()],
         render_kw={"placeholder": "Информация"})
-    # docs = MultipleFileField(
-    #     'Выберите файл(ы):',
-    #     validators=[FileRequired('Выберите хотя бы один файл'), FileAllowed(['jpg', 'jpeg', 'png', 'docs', 'pdf'], 'Только изображения, PDF-файлы и Word-файлы')])
     docs = MultipleFileField('Выберите файл(ы):')
     agreement = BooleanField(
         'Я даю согласие на обработку моих персональных данных', 
@@ -180,21 +181,24 @@ def about_page():
 def feedback():
     form = FeedbackForm(meta={'locales': ['ru_RU', 'ru']})
 
-    # print(request.method)
-    # print(form)
-
-    # print(form.organization.data)
-    # print(form.inn.data)
-    # print(form.rad.data)
-    # print(form.kpp.data)
-    # print(form.name.data)
-    # print(form.phone.data)
-    # print(form.email.data)
-    # print(form.inn.data)
-
-
     if form.validate_on_submit():
-        # print('success')
+        print('success')
+
+        print(request.method)
+        print(form)
+
+        print(form.organization.data)
+        print(form.inn.data)
+        print(form.rad.data)
+        print(form.kpp.data)
+        print(form.name.data)
+        print(form.phone.data)
+        print(form.email.data)
+        print(form.inn.data)
+        print(form.docs.data)
+
+        for f in form.docs.data:
+            print([f, not f.filename])
 
         # send email
         from_email = SMTP_USER
@@ -204,12 +208,12 @@ def feedback():
         body = '\n'.join([
             "Организация: " + form.organization.data,
             "ИНН: " + form.inn.data,
-            "Тип контрагента: " + form.rad.data,
+            "Тип контрагента: " + dict(form.rad.choices)[form.rad.data],
             "КПП: " + form.kpp.data,
             "ФИО: " + form.name.data,
             "Электронная почта: " + form.email.data,
             "Телефон: " + form.phone.data,
-            "Предпочтительный способ коммуникации: " + form.preference.data,
+            "Предпочтительный способ коммуникации: " + dict(form.preference.choices)[form.preference.data],
             "Информация: " + form.information.data,
         ])
         # print(body)
@@ -217,6 +221,7 @@ def feedback():
         email_message = MIMEMultipart()
         email_message.add_header('To', ', '.join(to_emails))
         email_message.add_header('From', from_email)
+        email_message.add_header('Date', formatdate(localtime=True))
         email_message.add_header('Subject', 'Обратная связь')
         email_message.add_header('X-Priority', '1')  # Urgent/High priority
         text_part = MIMEText(body, 'plain')
@@ -224,11 +229,24 @@ def feedback():
 
         email_message.attach(text_part)
 
+        for f in form.docs.data:
+            if not f.filename:
+                continue
+
+            part = MIMEBase('application', 'octet-stream')
+            part.set_payload(f.read())
+            encoders.encode_base64(part)
+            part.add_header('Content-Disposition', 'attachment; filename={}'.format(secure_filename(f.filename)))
+            email_message.attach(part)
+            print(part)
+        print(email_message)
+
+        # return render_template('feedback.html', form=form)
+
         # connect, authenticate, and send mail
         smtp_server = SMTP_SSL(SMTP_HOST, port=SMTP_SSL_PORT)
-        smtp_server.set_debuglevel(1)  # Show SMTP server interactions
         smtp_server.login(SMTP_USER, SMTP_PASSWORD)
-        smtp_server.sendmail(from_email, to_emails, email_message.as_bytes())
+        smtp_server.sendmail(from_email, to_emails, email_message.as_string())
         # disconnect
         smtp_server.quit()
 
