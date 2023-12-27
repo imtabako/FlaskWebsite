@@ -92,7 +92,8 @@ class FeedbackForm(FlaskForm):
     email = StringField(
         'Адрес электронной почты:',
         validators=[DataRequired(), Email(message='Неверный формат почты')],
-        render_kw={"placeholder": "Адрес электронной почты"})
+        render_kw={"placeholder": "Адрес электронной почты",
+                   "pattern": "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"})
     preference = SelectField(
         'Предпочтительный способ коммуникации:',
         choices=[('tel', 'Телефон'), ('email', 'Электроная почта')],
@@ -104,7 +105,7 @@ class FeedbackForm(FlaskForm):
         render_kw={"placeholder": "Информация"})
     docs = MultipleFileField('Выберите файл(ы):')
     agreement = BooleanField(
-        'Я даю согласие на обработку моих персональных данных', 
+        'Я даю согласие на обработку моих персональных данных',
         validators=[DataRequired()])
     submit = SubmitField('Отправить')
 
@@ -129,7 +130,7 @@ def test_tinymce():
             flash('Новость не может быть пуста', 'error')
             return render_template('test_editor.html', form=form)
         return redirect(url_for('main.index'))
-    
+
     # print('not validated')
     # print(form)
     return render_template('test_editor.html', form=form)
@@ -175,6 +176,12 @@ def upload_image():
 def about_page():
     # print(images)
     return render_template('about.html')
+
+
+# @main.route('/feedback', methods=['GET'])
+# def feedback_get():
+#     form = FeedbackForm(meta={'locales': ['ru_RU', 'ru']})
+#     return render_template('feedback.html', form=form)
 
 
 @main.route('/feedback', methods=['GET', 'POST'])
@@ -250,7 +257,7 @@ def feedback():
         # disconnect
         smtp_server.quit()
 
-    return render_template('feedback.html', form=form)
+    return render_template('feedback.html', form=form, alert='error')
 
 
 # News funtionality
@@ -300,7 +307,7 @@ def create_post():
 
         current_time = datetime.now()
         new_post = Post(
-            author_username=current_user.username, editor_username=current_user.username, 
+            author_username=current_user.username, editor_username=current_user.username,
             created=current_time, edited=current_time,
             title=form.title.data, body=form.body.data)
 
@@ -348,7 +355,7 @@ def edit_post(id):
     body = post.body
     editor = current_user.username
     edited = datetime.now()
-    
+
     if form.validate_on_submit:
         title = form.title.data
         body = form.body.data
@@ -357,7 +364,7 @@ def edit_post(id):
 
         # print('editing post')
         # print(post)
-    
+
         post.title = title
         post.body = body
         post.editor = editor
@@ -376,7 +383,7 @@ def delete_post(id):
     if current_user.id != 1:
         error = 'Недостаточно прав'
         return render_template('index.html')
-    
+
     post = Post.query.get(id)
     # print(post)
 
@@ -417,10 +424,10 @@ def list_users():
     if current_user.id != 1:
         error = 'Недостаточно прав'
         return render_template('index.html')
-    
+
     users = User.query.order_by(User.username).all()
     # print(users)
-    
+
     return render_template('userspanel.html', users=users)
 
 
@@ -465,7 +472,7 @@ def create_user():
             # print(error)
             # flash(error)
             return redirect(url_for('main.list_users'))
-        
+
         new_user = User(username=username, password=generate_password_hash(password), name=name, lastname=lastname, position=position)
         # add new user to database
         db.session.add(new_user)
@@ -475,7 +482,7 @@ def create_user():
     # flash(error)
 
     return redirect(url_for('main.list_users'))
-  
+
 
 # Edit existing user
 @main.route('/users/edit/<int:id>', methods=['POST', 'PUT'])
@@ -501,7 +508,7 @@ def edit_user(id):
         error = 'No such user'
         # flash(error)
         return redirect(url_for('main.list_users'))
-    
+
     user.username = username
     if password is not None:
         user.password = generate_password_hash(password)
@@ -523,7 +530,7 @@ def delete_user(id):
     if current_user.id != 1:
         error = 'Недостаточно прав'
         return render_template('index.html')
-    
+
     user = User.query.get(id)
     # print(user)
 
@@ -531,7 +538,7 @@ def delete_user(id):
         error = 'No such user'
         # flash(error)
         return redirect(url_for('main.list_users'))
-    
+
     db.session.delete(user)
     db.session.commit()
 

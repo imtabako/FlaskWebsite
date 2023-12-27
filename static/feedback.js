@@ -101,13 +101,7 @@ phone.addEventListener("focus", mask, false);
 phone.addEventListener("blur", mask, false);
 phone.addEventListener("keydown", mask, false);
 
-// function validateInput(input) {
-//     console.log('o');
-//     // Remove non-digit characters
-//     input.value = input.value.replace(/\D/g, '');
-
-//     // You can add additional validation logic here if needed
-// }
-
-// inn.oninput = validateInput(inn)
-// kpp.oninput = validateInput(kpp)
+function alertOnSuccess(f) {
+    alert("Форма успешно отправлена!");
+    f.submit();
+}
